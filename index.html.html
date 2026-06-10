@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Direct Debit.cc — Phase 8 (All Screens)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+    :root {
+  --dark-blue:    #172B4D;
+  --dark-blue-2:  #0F1F38;
+  --teal:         #00A3A3;
+  --teal-mid:     #00BFBF;
+  --white:        #FFFFFF;
+  --bg:           #F4F6F9;
+  --border:       #E2E8F0;
+  --border-lt:    #EEF2F7;
+  --txt-head:     #0F1F38;
+  --txt-body:     #2D3F5C;
+  --txt-muted:    #64748B;
+  --txt-faint:    #94A3B8;
+  --red:          #DC2626;
+      --sidebar-width: 248px;
+      --topbar-height: 56px;
+      --min-page-width: 1280px;
+      --input-border: color-mix(in srgb, var(--border) 78%, var(--txt-muted) 22%);
+      --page-bg: var(--bg);
+      --card-surface: var(--white);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      min-width: var(--min-page-width);
+      font-family: "DM Sans", system-ui, sans-serif;
+      background: var(--page-bg);
+      color: var(--txt-head);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; }
+    .visually-hidden {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+    }
+
+    .prototype-nav {
+      position: sticky; top: 0; z-index: 1000;
+      display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+      padding: 10px 16px;
+      background: var(--dark-blue);
+      color: var(--white);
+      font-size: 13px;
+      border-bottom: 1px solid rgba(0, 163, 163, 0.35);
+      box-shadow: 0 4px 16px rgba(15, 31, 56, 0.25);
+    }
+    .proto-label { font-weight: 600; margin-right: 8px; }
+    .prototype-nav a {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 12px; border-radius: 8px;
+      background: rgba(255, 255, 255, 0.07);
+      color: var(--white); text-decoration: none; font-weight: 500;
+      border: 1px solid transparent;
+    }
+    .prototype-nav a:hover { background: rgba(0, 163, 163, 0.45); }
+    .prototype-nav a.active {
+      background: #00A3A3;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .can-screen-section { min-height: 100vh; }
+    .can-screen-section .app-shell { min-height: 100vh; }
+
+    .app-shell { display: flex; min-height: 100vh; }
+    .sidebar {
+      width: var(--sidebar-width); flex-shrink: 0;
+      background: var(--dark-blue) !important;
+      color: var(--white); display: flex; flex-direction: column; min-height: 100vh;
+      position: relative; overflow: hidden;
+    }
+    .sidebar::after {
+      content: '';
+      position: absolute;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 180px;
+      height: 220px;
+      background: radial-gradient(ellipse at center, rgba(0,163,163,0.45) 0%, rgba(0,163,163,0.12) 40%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+      border-radius: 50%;
+    }
+    .sidebar-inner {
+      position: relative; z-index: 2; display: flex; flex-direction: column; height: 100%;
+      min-height: 0;
+      padding: 0 16px 20px;
+    }
+    .sidebar-brand {
+      display: flex; align-items: center; gap: 10px;
+      padding: 22px 18px 28px; margin-bottom: 8px; color: inherit;
+    }
+    .sidebar-brand svg { flex-shrink: 0; display: block; filter: drop-shadow(0 2px 14px rgba(0, 163, 163, 0.35)); }
+    .brand-text { display: flex; flex-direction: column; min-width: 0; }
+    .brand-name { display: block; color: #ffffff; font-size: 18px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.1; }
+    .brand-sub {
+      display: block; color: var(--teal-mid); font-size: 7px; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase; margin-top: 1px; white-space: nowrap;
+    }
+    .sidebar-nav { display: flex; flex-direction: column; gap: 4px; flex-shrink: 0; }
+    .nav-item {
+      display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 8px;
+      font-size: 14px; font-weight: 500; color: var(--white);
+      transition: background 0.15s ease;
+      border-right: 3px solid transparent;
+    }
+    .nav-item:hover { background: rgba(255, 255, 255, 0.07); }
+    .nav-item.active {
+      background: #00A3A3 !important;
+      color: #ffffff !important;
+      border-right: 3px solid var(--teal-mid) !important;
+    }
+    .nav-item svg { width: 18px; height: 18px; flex-shrink: 0; stroke: currentColor; }
+    .nav-sub-item { font-size: 12px !important; padding: 7px 12px !important; opacity: 0.85; }
+    .nav-sub-item.active { opacity: 1; background: var(--teal) !important; }
+    .nav-group-header { user-select: none; }
+    .sidebar-atmosphere { flex: 1; min-height: 56px; margin: 12px -8px 8px; pointer-events: none; z-index: 1; position: relative; }
+    .sidebar-footer { margin-top: 0; padding-top: 24px; flex-shrink: 0; position: relative; z-index: 2; }
+    .merchant-card {
+      display: flex; align-items: center; gap: 10px; padding: 12px; border-radius: 10px;
+      background: rgba(255, 255, 255, 0.07);
+    }
+    .merchant-avatar {
+      width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--teal), var(--teal-mid));
+      display: grid; place-items: center; font-size: 12px; font-weight: 600; color: var(--white);
+    }
+    .merchant-meta { min-width: 0; }
+    .merchant-name {
+      font-size: 13px; font-weight: 600; color: var(--white);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .merchant-id { font-size: 11px; color: rgba(255, 255, 255, 0.5); }
+
+    .main-wrap {
+      flex: 1; display: flex; flex-direction: column; min-width: 0;
+      max-width: calc(100vw - var(--sidebar-width));
+      background-color: var(--page-bg) !important;
+    }
+
+    .phase3-topbar {
+      height: var(--topbar-height);
+      background: var(--page-bg);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 12px;
+      padding: 0 24px; flex-shrink: 0; min-width: 0;
+    }
+    .phase3-topbar .topbar-search-wrap {
+      flex: 1; display: flex; justify-content: flex-start; align-items: center; min-width: 0;
+    }
+    .phase3-topbar .search-field { width: 100%; max-width: 480px; position: relative; }
+    .phase3-topbar .search-field input {
+      width: 100%; height: 40px; border: 1px solid var(--input-border); border-radius: 8px;
+      padding: 0 14px 0 40px; font-size: 14px; color: var(--txt-head); background: var(--white);
+    }
+    .phase3-topbar .search-field input::placeholder { color: var(--txt-muted); font-size: 13px; }
+    .phase3-topbar .search-field input:focus { outline: none; border-color: var(--teal); }
+    .phase3-topbar .search-field .search-icon {
+      position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+      color: var(--txt-muted); width: 18px; height: 18px;
+    }
+    .phase3-topbar .topbar-actions {
+      display: flex; align-items: center; gap: 12px; flex-shrink: 0; margin-left: auto;
+    }
+    .btn-ghost { background: transparent; border: none; padding: 8px; color: var(--txt-muted); }
+    .user-pill { display: flex; align-items: center; gap: 8px; }
+    .user-avatar {
+      width: 36px; height: 36px; border-radius: 50%; background: var(--border);
+      display: grid; place-items: center; font-size: 13px; font-weight: 600; color: var(--teal);
+    }
+    .user-name { font-size: 13px; font-weight: 500; color: var(--txt-head); }
+
+    .content {
+      padding: 20px 20px 40px; flex: 1; min-width: 0;
+      display: flex; flex-direction: column; background: var(--page-bg);
+    }
+    .breadcrumb {
+      font-size: 12px; font-weight: 500; color: var(--txt-muted); margin-bottom: 8px;
+      display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+    }
+    .breadcrumb a { color: var(--txt-muted); text-decoration: underline; text-underline-offset: 2px; }
+    .breadcrumb-sep { opacity: 0.6; }
+    .breadcrumb-current { color: var(--txt-head); text-decoration: none; }
+    .page-header { margin-bottom: 14px; flex-shrink: 0; }
+    .page-title {
+      font-size: 22px; font-weight: 700; color: var(--txt-head); margin: 0 0 4px;
+      letter-spacing: -0.02em;
+    }
+
+    .info-banner {
+      display: flex; align-items: flex-start; gap: 10px;
+      background: #FEF9C3; border: 1px solid #FDE68A; border-radius: 10px;
+      padding: 12px 16px; margin-bottom: 20px;
+      font-size: 13px; color: #854D0E; line-height: 1.5;
+    }
+    .info-banner svg { flex-shrink: 0; margin-top: 1px; }
+
+    .card {
+      background: var(--card-surface); border: 1px solid var(--card-surface); border-radius: 12px;
+      box-shadow: none; flex: 1; min-height: 0; display: flex; flex-direction: column;
+    }
+    .table-card { padding: 0; overflow: hidden; }
+    .table-scroll {
+      overflow-x: auto; overflow-y: auto; flex: 1;
+      max-height: calc(100vh - 340px);
+    }
+    .plans-table {
+      width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 12px;
+    }
+    .plans-table thead th {
+      position: sticky; top: 0; z-index: 2;
+      background: #F4F6F9; text-align: left;
+      font-size: 11px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.03em; color: var(--txt-muted);
+      padding: 9px 6px; border-bottom: 1px solid var(--border-lt);
+      vertical-align: top;
+    }
+    .plans-table tbody td {
+      padding: 9px 6px; font-size: 11px; color: var(--txt-head);
+      border-bottom: 1px solid var(--border-lt); vertical-align: top;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      background: #FFFFFF;
+    }
+    .plans-table tbody tr:hover td { background: #F4F6F9; }
+    .plans-table td,
+    .plans-table th { vertical-align: top !important; }
+    .plans-table td.col-payer-name,
+    .plans-table th.col-payer-name {
+      white-space: normal !important; overflow: visible !important;
+      text-overflow: unset !important; word-break: break-word !important;
+      overflow-wrap: break-word !important; max-width: 1px;
+    }
+    .link-mandate {
+      color: var(--teal); font-weight: 600; text-decoration: underline; text-underline-offset: 2px;
+      cursor: pointer;
+    }
+
+    .badge {
+      display: inline-block; font-size: 10px; font-weight: 600; border-radius: 20px;
+      padding: 2px 8px; max-width: 100%;
+    }
+    .badge-cancellation-pending { background: #FEF9C3; color: #854D0E; }
+    .bdg-cancel-rejected {
+      display: inline-block;
+      background: #FEF2F2;
+      color: #DC2626;
+      padding: 3px 10px;
+      border-radius: 10px;
+      font-family: DM Sans, sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: normal;
+      word-break: break-word;
+    }
+    .badge-cancelled { background: #F1F5F9; color: #475569; }
+
+    .sort-btn {
+      background: none; border: none; cursor: pointer;
+      padding: 0 2px; margin-left: 4px; vertical-align: middle;
+    }
+    .sort-arrow { font-size: 11px; color: #9CA3AF; user-select: none; transition: color 0.15s; }
+    .sort-btn:hover .sort-arrow { color: var(--teal); }
+    .sort-dropdown {
+      position: absolute; top: calc(100% + 4px); left: 0;
+      background: white; border: 1px solid var(--border); border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.10); min-width: 180px; z-index: 500; overflow: hidden;
+    }
+    .sort-dropdown button {
+      display: block; width: 100%; padding: 9px 16px; text-align: left;
+      background: none; border: none; font-size: 13px; font-family: DM Sans, sans-serif;
+      color: var(--dark-blue); cursor: pointer;
+    }
+    .sort-dropdown button:hover { background: var(--bg); }
+    .sort-dropdown button:last-child {
+      border-top: 1px solid var(--border-lt); color: #9CA3B8; font-size: 12px;
+    }
+    .plans-table thead th { position: relative; }
+</style>
+</head>
+<body>
+
+<nav class="prototype-nav" aria-label="Prototype screens">
+  <span class="proto-label">Phase 8 — All Screens:</span>
+  <a href="#screen-can001" class="can-proto-nav active" data-screen="screen-can001" onclick="showCanScreen('screen-can001'); return false;">SCR-CAN-001: Cancellation Pending</a>
+  <a href="#screen-can002" class="can-proto-nav" data-screen="screen-can002" onclick="showCanScreen('screen-can002'); return false;">SCR-CAN-002: Cancelled Mandates</a>
+</nav>
+
+<!-- SCR-CAN-001: Cancellation Pending -->
+<section class="can-screen-section" id="screen-can001" aria-label="Cancellation Pending">
+<div class="app-shell">
+<aside class="sidebar" aria-label="Main navigation">
+<div class="sidebar-inner">
+<div class="sidebar-brand">
+<svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<path d="M4 34 C4 34 10 20 19 4 C19 4 14 14 11 22 C9 27 8 30 8 34 Z" fill="#00A3A3" opacity="0.95"/>
+<path d="M34 34 C34 34 28 20 19 4 C19 4 24 14 27 22 C29 27 30 30 30 34 Z" fill="#00A3A3" opacity="0.9"/>
+<path d="M11 23 Q19 19 27 23" stroke="#00A3A3" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.8"/>
+<path d="M19 4 C19 4 20 8 21 12 C22 16 22 18 22 20 L19 26 L16 20 C16 18 16 16 17 12 C18 8 19 4 19 4 Z" fill="rgba(255,255,255,0.12)"/>
+</svg>
+<div class="brand-text"><span class="brand-name">DirectDebit.cc</span><span class="brand-sub">DIRECT DEBIT PLATFORM</span></div>
+</div>
+<nav class="sidebar-nav" aria-label="Primary">
+<a href="#" class="nav-item"><i data-lucide="layout-dashboard"></i><span>Overview</span></a>
+<a href="../phase-1/phase-1-all-screens.html#screen-pp002" class="nav-item"><i data-lucide="credit-card"></i><span>Payment Plans</span></a>
+<div class="nav-group" id="nav-group-mandates">
+  <div class="nav-group-header nav-item" onclick="toggleNavGroup('mandates')" style="cursor:pointer; display:flex; align-items:center; justify-content:space-between;">
+    <span style="display:flex; align-items:center; gap:10px;"><i data-lucide="file-text"></i>Mandates Management</span>
+    <i data-lucide="chevron-down" id="nav-group-mandates-chevron" style="width:14px; height:14px; transition:transform 0.2s; transform:rotate(180deg);"></i>
+  </div>
+  <div class="nav-sub-items" id="nav-sub-mandates" style="display:flex; flex-direction:column; padding-left:20px;">
+    <a class="nav-item nav-sub-item can-nav-sub" href="#" data-screen="screen-mnd001"><i data-lucide="list" style="width:15px; height:15px;"></i>Mandates</a>
+    <a class="nav-item nav-sub-item can-nav-sub active" href="#screen-can001" data-screen="screen-can001" onclick="showCanScreen('screen-can001'); return false;"><i data-lucide="clock" style="width:15px; height:15px;"></i>Cancellation Pending</a>
+    <a class="nav-item nav-sub-item can-nav-sub" href="#screen-can002" data-screen="screen-can002" onclick="showCanScreen('screen-can002'); return false;"><i data-lucide="archive" style="width:15px; height:15px;"></i>Cancelled Mandates</a>
+  </div>
+</div>
+<a href="../phase_4/phase-4-all-screens.html#screen-rej001" class="nav-item"><i data-lucide="x-circle"></i><span>Rejections</span></a>
+<a href="../phase_5/phase-5-all-screens.html#screen-col001" class="nav-item"><i data-lucide="banknote"></i><span>Collections</span></a>
+<a href="#" class="nav-item"><i data-lucide="alert-triangle"></i><span>Bounced</span></a>
+<a href="#" class="nav-item"><i data-lucide="bar-chart-2"></i><span>Reports</span></a>
+<a href="#" class="nav-item"><i data-lucide="settings"></i><span>Settings</span></a>
+</nav>
+<div class="sidebar-atmosphere" aria-hidden="true"></div>
+<div class="sidebar-footer">
+<div class="merchant-card"><div class="merchant-avatar">DM</div><div class="merchant-meta"><div class="merchant-name">Demo Merchant LLC</div><div class="merchant-id">MID-UAE-10294</div></div></div>
+</div>
+</div>
+</aside>
+
+<div class="main-wrap">
+<header class="topbar phase3-topbar">
+<div class="topbar-search-wrap">
+<div class="search-field">
+<i data-lucide="search" class="search-icon"></i>
+<input type="search" id="can001-topbar-search" placeholder="Search by Mandate Reference or Payer Name..." autocomplete="off" aria-label="Global search"/>
+</div>
+</div>
+<div class="topbar-actions">
+<button type="button" class="btn btn-ghost" aria-label="Notifications"><i data-lucide="bell" style="width:20px;height:20px"></i></button>
+<div class="user-pill"><div class="user-avatar">AK</div><span class="user-name">Amira K.</span></div>
+</div>
+</header>
+
+<main class="content">
+<nav class="breadcrumb" aria-label="Breadcrumb">
+<a href="#">Overview</a><span class="breadcrumb-sep">/</span>
+<a href="#">Mandates Management</a><span class="breadcrumb-sep">/</span>
+<span class="breadcrumb-current">Cancellation Pending</span>
+</nav>
+
+<div class="page-header"><h1 class="page-title">Cancellation Pending</h1></div>
+
+<div class="info-banner" role="note">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#854D0E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+<span>These mandates have been submitted to the bank for cancellation. The RPA processes the bank's responses automatically. No manual action is required.</span>
+</div>
+
+<!-- KPI Panel -->
+<div style="background:white; border-radius:12px; box-shadow:0 1px 4px rgba(0,0,0,.06); margin-bottom:20px; overflow:hidden;">
+  <div style="display:grid; grid-template-columns:repeat(2,1fr);">
+    <div style="padding:14px 16px; border-right:1px solid #E2E8F0;">
+      <div style="display:flex; align-items:center; gap:6px; margin-bottom:10px;">
+        <div style="width:8px; height:8px; border-radius:50%; background:#854D0E; flex-shrink:0;"></div>
+        <span style="font-size:10px; font-weight:700; color:#2D3F5C; text-transform:uppercase; letter-spacing:.05em;">Cancellation Pending</span>
+      </div>
+      <div style="display:flex; align-items:baseline; gap:12px; margin-bottom:6px;">
+        <div><div style="font-size:11px; color:#2D3F5C; margin-bottom:1px;">Mandates</div><div style="font-size:22px; font-weight:700; color:#172B4D; line-height:1;">4</div></div>
+        <div style="width:1px; height:28px; background:#E2E8F0; flex-shrink:0;"></div>
+        <div><div style="font-size:11px; color:#2D3F5C; margin-bottom:1px;">Amount</div><div style="font-size:22px; font-weight:700; color:#172B4D; line-height:1;">AED 19,500</div></div>
+      </div>
+      <div style="display:flex; align-items:flex-end; gap:3px; height:28px;">
+        <div style="flex:1; background:#FDE68A; border-radius:2px 2px 0 0; height:40%;"></div>
+        <div style="flex:1; background:#FDE68A; border-radius:2px 2px 0 0; height:55%;"></div>
+        <div style="flex:1; background:#FDE68A; border-radius:2px 2px 0 0; height:45%;"></div>
+        <div style="flex:1; background:#FDE68A; border-radius:2px 2px 0 0; height:65%;"></div>
+        <div style="flex:1; background:#FDE68A; border-radius:2px 2px 0 0; height:75%;"></div>
+        <div style="flex:1; background:#854D0E; border-radius:2px 2px 0 0; height:100%;"></div>
+      </div>
+    </div>
+    <div style="padding:14px 16px;">
+      <div style="display:flex; align-items:center; gap:6px; margin-bottom:10px;">
+        <div style="width:8px; height:8px; border-radius:50%; background:#00A3A3; flex-shrink:0;"></div>
+        <span style="font-size:10px; font-weight:700; color:#2D3F5C; text-transform:uppercase; letter-spacing:.05em;">Cancellation Attempts</span>
+      </div>
+      <div style="display:flex; align-items:baseline; gap:12px; margin-bottom:6px;">
+        <div><div style="font-size:11px; color:#2D3F5C; margin-bottom:1px;">Total Submissions</div><div style="font-size:22px; font-weight:700; color:#172B4D; line-height:1;">7</div></div>
+      </div>
+      <div style="display:flex; align-items:flex-end; gap:3px; height:28px;">
+        <div style="flex:1; background:#CCEFEF; border-radius:2px 2px 0 0; height:50%;"></div>
+        <div style="flex:1; background:#CCEFEF; border-radius:2px 2px 0 0; height:65%;"></div>
+        <div style="flex:1; background:#CCEFEF; border-radius:2px 2px 0 0; height:55%;"></div>
+        <div style="flex:1; background:#CCEFEF; border-radius:2px 2px 0 0; height:70%;"></div>
+        <div style="flex:1; background:#CCEFEF; border-radius:2px 2px 0 0; height:80%;"></div>
+        <div style="flex:1; background:#00A3A3; border-radius:2px 2px 0 0; height:100%;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Filter Bar -->
+<div style="display:flex; flex-wrap:wrap; align-items:flex-end; gap:10px 12px; margin-bottom:12px;">
+  <div style="display:flex; flex-direction:column; gap:4px;">
+    <label style="font-size:11px; font-weight:600; color:#2D3F5C;">Mandate Reference</label>
+    <input type="text" id="can001-filter-ref" placeholder="e.g. MND-00850" oninput="applyCan001Filters()" style="height:34px; padding:0 10px; font-size:12px; color:#172B4D; background:white; border:1.5px solid #E2E8F0; border-radius:8px; font-family:DM Sans,sans-serif; width:170px;"/>
+  </div>
+  <div style="display:flex; flex-direction:column; gap:4px;">
+    <label style="font-size:11px; font-weight:600; color:#2D3F5C;">Payer Name</label>
+    <input type="text" id="can001-filter-payer" placeholder="e.g. Ahmed Al Marzouqi" oninput="applyCan001Filters()" style="height:34px; padding:0 10px; font-size:12px; color:#172B4D; background:white; border:1.5px solid #E2E8F0; border-radius:8px; font-family:DM Sans,sans-serif; width:170px;"/>
+  </div>
+  <div style="display:flex; flex-direction:column; gap:4px;">
+    <label style="font-size:11px; font-weight:600; color:#2D3F5C;">Requested On</label>
+    <div style="display:flex; align-items:center; gap:6px;">
+      <select id="can001-date-mode" onchange="handleCan001DateModeChange()" style="height:34px; padding:0 28px 0 10px; font-size:12px; color:#172B4D; background:white; border:1.5px solid #E2E8F0; border-radius:8px; font-family:DM Sans,sans-serif; appearance:none; background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E&quot;); background-repeat:no-repeat; background-position:right 8px center; cursor:pointer; width:130px;">
+        <option value="none">Any date</option>
+        <option value="after">After</option>
+        <option value="before">Before</option>
+        <option value="between">Between</option>
+        <option value="except">Except the period</option>
+      </select>
+      <input type="date" id="can001-date-a" onchange="applyCan001Filters()" style="display:none; height:34px; padding:0 10px; font-size:12px; color:#172B4D; background:white; border:1.5px solid #E2E8F0; border-radius:8px; font-family:DM Sans,sans-serif;"/>
+      <span id="can001-date-sep" style="display:none; font-size:12px; color:#2D3F5C; font-weight:600;">and</span>
+      <input type="date" id="can001-date-b" onchange="applyCan001Filters()" style="display:none; height:34px; padding:0 10px; font-size:12px; color:#172B4D; background:white; border:1.5px solid #E2E8F0; border-radius:8px; font-family:DM Sans,sans-serif;"/>
+    </div>
+  </div>
+  <div style="display:flex; flex-direction:column; gap:4px;">
+    <label style="font-size:11px; font-weight:600; color:#2D3F5C;">Requested By</label>
+    <select id="can001-filter-requested-by" onchange="applyCan001Filters()" style="height:34px; padding:0 28px 0 10px; font-size:12px; color:#172B4D; background:white; border:1.5px solid #E2E8F0; border-radius:8px; font-family:DM Sans,sans-serif; appearance:none; background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E&quot;); background-repeat:no-repeat; background-position:right 8px center; cursor:pointer; padding-right:28px; width:150px;">
+      <option value="all">All</option>
+      <option value="merchant">Merchant</option>
+      <option value="ops">Ops</option>
+    </select>
+  </div>
+  <div style="display:flex; flex-direction:column; gap:4px;">
+    <label style="font-size:11px; font-weight:600; color:#2D3F5C;">Status</label>
+    <select id="can001-filter-status" onchange="applyCan001Filters()" style="height:34px; padding:0 28px 0 10px; font-size:12px; color:#172B4D; background:white; border:1.5px solid #E2E8F0; border-radius:8px; font-family:DM Sans,sans-serif; appearance:none; background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E&quot;); background-repeat:no-repeat; background-position:right 8px center; cursor:pointer; padding-right:28px; width:185px;">
+      <option value="">All Statuses</option>
+      <option value="cancellation-pending">Cancellation Pending</option>
+      <option value="cancellation-rejected">Cancel Rejected</option>
+    </select>
+  </div>
+  <div style="display:flex; flex-direction:column; gap:4px;">
+    <label style="font-size:11px; font-weight:600; color:transparent;">Clear</label>
+    <button type="button" onclick="clearCan001Filters()" style="height:34px; padding:0 14px; background:white; color:#2D3F5C; border:1.5px solid #E2E8F0; border-radius:8px; font-size:12px; font-weight:600; font-family:DM Sans,sans-serif; cursor:pointer;">Clear</button>
+  </div>
+</div>
+
+<div class="card table-card">
+<div class="table-scroll">
+<table class="plans-table" aria-label="Cancellation Pending">
+<colgroup>
+  <col style="width:145px"/>
+  <col style="width:130px"/>
+  <col style="width:95px"/>
+  <col style="width:100px"/>
+  <col style="width:110px"/>
+  <col style="width:110px"/>
+  <col style="width:95px"/>
+  <col style="width:130px"/>
+</colgroup>
+<thead>
+<tr>
+  <th scope="col">Mandate Reference
+    <button type="button" class="sort-btn" data-col="0" onclick="toggleSortDropdown(this, event, 'canPendingTableBody')"><span class="sort-arrow">↕</span></button>
+    <div class="sort-dropdown" style="display:none;">
+      <button type="button" onclick="applyTableSort('canPendingTableBody',0,'text','asc');closeSortDropdowns()">Sort A → Z</button>
+      <button type="button" onclick="applyTableSort('canPendingTableBody',0,'text','desc');closeSortDropdowns()">Sort Z → A</button>
+      <button type="button" onclick="closeSortDropdowns()">Clear Sort</button>
+    </div>
+  </th>
+  <th scope="col" class="col-payer-name">Payer Name
+    <button type="button" class="sort-btn" data-col="1" onclick="toggleSortDropdown(this, event, 'canPendingTableBody')"><span class="sort-arrow">↕</span></button>
+    <div class="sort-dropdown" style="display:none;">
+      <button type="button" onclick="applyTableSort('canPendingTableBody',1,'text','asc');closeSortDropdowns()">Sort A → Z</button>
+      <button type="button" onclick="applyTableSort('canPendingTableBody',1,'text','desc');closeSortDropdowns()">Sort Z → A</button>
+      <button type="button" onclick="closeSortDropdowns()">Clear Sort</button>
+    </div>
+  </th>
+  <th scope="col">Amount (AED)
+    <button type="button" class="sort-btn" data-col="2" onclick="toggleSortDropdown(this, event, 'canPendingTableBody')"><span class="sort-arrow">↕</span></button>
+    <div class="sort-dropdown" style="display:none;">
+      <button type="button" onclick="applyTableSort('canPendingTableBody',2,'number','asc');closeSortDropdowns()">Sort Low → High</button>
+      <button type="button" onclick="applyTableSort('canPendingTableBody',2,'number','desc');closeSortDropdowns()">Sort High → Low</button>
+      <button type="button" onclick="closeSortDropdowns()">Clear Sort</button>
+    </div>
+  </th>
+  <th scope="col">Frequency
+    <button type="button" class="sort-btn" data-col="3" onclick="toggleSortDropdown(this, event, 'canPendingTableBody')"><span class="sort-arrow">↕</span></button>
+    <div class="sort-dropdown" style="display:none;">
+      <button type="button" onclick="applyTableSort('canPendingTableBody',3,'text','asc');closeSortDropdowns()">Sort A → Z</button>
+      <button type="button" onclick="applyTableSort('canPendingTableBody',3,'text','desc');closeSortDropdowns()">Sort Z → A</button>
+      <button type="button" onclick="closeSortDropdowns()">Clear Sort</button>
+    </div>
+  </th>
+  <th scope="col">Requested On
+    <button type="button" class="sort-btn" data-col="4" onclick="toggleSortDropdown(this, event, 'canPendingTableBody')"><span class="sort-arrow">↕</span></button>
+    <div class="sort-dropdown" style="display:none;">
+      <button type="button" onclick="applyTableSort('canPendingTableBody',4,'date','asc');closeSortDropdowns()">Sort Oldest First</button>
+      <button type="button" onclick="applyTableSort('canPendingTableBody',4,'date','desc');closeSortDropdowns()">Sort Newest First</button>
+      <button type="button" onclick="closeSortDropdowns()">Clear Sort</button>
+    </div>
+  </th>
+  <th scope="col">Requested By
+    <button type="button" class="sort-btn" data-col="5" onclick="toggleSortDropdown(this, event, 'canPendingTableBody')"><span class="sort-arrow">↕</span></button>
+    <div class="sort-dropdown" style="display:none;">
+      <button type="button" onclick="applyTableSort('canPendingTableBody',5,'text','asc');closeSortDropdowns()">Sort A → Z</button>
+      <button type="button" onclick="applyTableSort('canPendingTableBody',5,'text','desc');closeSortDropdowns()">Sort Z → A</button>
+      <button type="button" onclick="closeSortDropdowns()">Clear Sort</button>
+    </div>
+  </th>
+  <th scope="col">Cancellation Attempts
+    <button type="button" class="sort-btn" data-col="6" onclick="toggleSortDropdown(this, event, 'canPendingTableBody')"><span class="sort-arrow">↕</span></button>
+    <div class="sort-dropdown" style="display:none;">
+      <button type="button" onclick="applyTableSort('canPendingTableBody',6,'number','asc');closeSortDropdowns()">Sort Low → High</button>
+      <button type="button" onclick="applyTableSort('canPendingTableBody',6,'number','desc');closeSortDropdowns()">Sort High → Low</button>
+      <button type="button" onclick="closeSortDropdowns()">Clear Sort</button>
+    </div>
+  </th>
+  <th scope="col">Status</th>
+</tr>
+</thead>
+<tbody id="canPendingTableBody">
+<tr data-search="mnd-00850 ahmed al marzouqi" data-requested="01/06/2026" data-requested-by="ops" data-status="cancellation-pending">
+  <td><a class="link-mandate" href="#">MND-00850</a></td>
+  <td class="col-payer-name">Ahmed Al Marzouqi</td>
+  <td>AED 2,500</td>
+  <td>Monthly</td>
+  <td>01/06/2026</td>
+  <td>Admin (Ops)</td>
+  <td>1</td>
+  <td><span class="badge badge-cancellation-pending">Cancellation Pending</span></td>
+</tr>
+<tr data-search="mnd-00851 sara al hamdan" data-requested="28/05/2026" data-requested-by="merchant" data-status="cancellation-rejected">
+  <td><a class="link-mandate" href="#">MND-00851</a></td>
+  <td class="col-payer-name">Sara Al Hamdan</td>
+  <td>AED 5,000</td>
+  <td>Monthly</td>
+  <td>28/05/2026</td>
+  <td>Merchant Admin</td>
+  <td>3</td>
+  <td><span class="bdg-cancel-rejected">Cancel Rejected</span></td>
+</tr>
+<tr data-search="mnd-00852 mohammed al rashidi" data-requested="25/05/2026" data-requested-by="ops" data-status="cancellation-rejected">
+  <td><a class="link-mandate" href="#">MND-00852</a></td>
+  <td class="col-payer-name">Mohammed Al Rashidi</td>
+  <td>Variable</td>
+  <td>Quarterly</td>
+  <td>25/05/2026</td>
+  <td>Admin (Ops)</td>
+  <td>2</td>
+  <td><span class="bdg-cancel-rejected">Cancel Rejected</span></td>
+</tr>
+<tr data-search="mnd-00853 fatima al zaabi" data-requested="20/05/2026" data-requested-by="merchant" data-status="cancellation-pending">
+  <td><a class="link-mandate" href="#">MND-00853</a></td>
+  <td class="col-payer-name">Fatima Al Zaabi</td>
+  <td>AED 12,000</td>
+  <td>Half-Yearly</td>
+  <td>20/05/2026</td>
+  <td>Merchant Admin</td>
+  <td>1</td>
+  <td><span class="badge badge-cancellation-pending">Cancellation Pending</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</main>
+</div>
+</div>
+</section>
+
+<!-- SCR-CAN-002: Cancelled Mandates -->
+<section class="can-screen-section" id="screen-can002" aria-label="Cancelled Mandates" style="display:none;">
+<div class="app-shell">
+<aside class="sidebar" aria-label="Main navigation">
+<div class="sidebar-inner">
+<div class="sidebar-brand">
+<svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<path d="M4 34 C4 34 10 20 19 4 C19 4 14 14 11 22 C9 27 8 30 8 34 Z" fill="#00A3A3" opacity="0.95"/>
+<path d="M34 34 C34 34 28 20 19 4 C19 4 24 14 27 22 C29 27 30 30 30 34 Z" fill="#00A3A3" opacity="0.9"/>
+<path d="M11 23 Q19 19 27 23" stroke="#00A3A3" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.8"/>
+<path d="M19 4 C19 4 20 8 21 12 C22 16 22 18 22 20 L19 26 L16 20 C16 18 16 16 17 12 C18 8 19 4 19 4 Z" fill="rgba(255,255,255,0.12)"/>
+</svg>
+<div class="brand-text"><span class="brand-name">DirectDebit.cc</span><span class="brand-sub">DIRECT DEBIT PLATFORM</span></div>
+</div>
+<nav class="sidebar-nav" aria-label="Primary">
+<a href="#" class="nav-item"><i data-lucide="layout-dashboard"></i><span>Overview</span></a>
+<a href="../phase-1/phase-1-all-screens.html#screen-pp002" class="nav-item"><i data-lucide="credit-card"></i><span>Payment Plans</span></a>
+<div class="nav-group" id="nav-group-mandates-2">
+  <div class="nav-group-header nav-item" onclick="toggleNavGroup('mandates')" style="cursor:pointer; display:flex; align-items:center; justify-content:space-between;">
+    <span style="display:flex; align-items:center; gap:10px;"><i data-lucide="file-text"></i>Mandates Management</span>
+    <i data-lucide="chevron-down" class="nav-group-mandates-chevron" style="width:14px; height:14px; transition:transform 0.2s; transform:rotate(180deg);"></i>
+  </div>
+  <div class="nav-sub-items nav-sub-mandates" style="display:flex; flex-direction:column; padding-left:20px;">
+    <a class="nav-item nav-sub-item can-nav-sub" href="#" data-screen="screen-mnd001"><i data-lucide="list" style="width:15px; height:15px;"></i>Mandates</a>
+    <a class="nav-item nav-sub-item can-nav-sub" href="#screen-can001" data-screen="screen-can001" onclick="showCanScreen('screen-can001'); return false;"><i data-lucide="clock" style="width:15px; height:15px;"></i>Cancellation Pending</a>
+    <a class="nav-item nav-sub-item can-nav-sub active" href="#screen-can002" data-screen="screen-can002" onclick="showCanScreen('screen-can002'); return false;"><i data-lucide="archive" style="width:15px; height:15px;"></i>Cancelled Mandates</a>
+  </div>
+</div>
+<a href="../phase_4/phase-4-all-screens.html#screen-rej001" class="nav-item"><i data-lucide="x-circle"></i><span>Rejections</span></a>
+<a href="../phase_5/phase-5-all-screens.html#screen-col001" class="nav-item"><i data-lucide="banknote"></i><span>Collections</span></a>
+<a href="#" class="nav-item"><i data-lucide="alert-triangle"></i><span>Bounced</span></a>
+<a href="#" class="nav-item"><i data-lucide="bar-chart-2"></i><span>Reports</span></a>
+<a href="#" class="nav-item"><i data-lucide="settings"></i><span>Settings</span></a>
+</nav>
+<div class="sidebar-atmosphere" aria-hidden="true"></div>
+<div class="sidebar-footer">
+<div class="merchant-card"><div class="merchant-avatar">DM</div><div class="merchant-meta"><div class="merchant-name">Demo Merchant LLC</div><div class="merchant-id">MID-UAE-10294</div></div></div>
+</div>
+</div>
+</aside>
+
+<div class="main-wrap">
+<header class="topbar phase3-topbar">
+<div class="topbar-search-wrap">
+<div class="search-field">
+<i data-lucide="search" class="search-icon"></i>
+<input type="search" id="can002-topbar-search" placeholder="Search by Mandate Reference or Payer Name..." autocomplete="off" aria-label="Global search"/>
+</div>
+</div>
+<div class="topbar-actions">
+<button type="button" class="btn btn-ghost" aria-label="Notifications"><i data-lucide="bell" style="width:20px;height:20px"></i></button>
+<div class="user-pill"><div class="user-avatar">AK</div><span class="user-name">Amira K.</span></div>
+</div>
+</header>
+
+<main class="content">
+<nav class="breadcrumb" aria-label="Breadcrumb">
+<a href="#">Overview</a><span class="breadcrumb-sep">/</span>
+<a href="#">Mandates Management</a><span class="breadcrumb-sep">/</span>
+<span class="breadcrumb-current">Cancelled Mandates</span>
+</nav>
+
+<div class="page-header"><h1 class="page-title">Cancelled Mandates</h1></div>
+
+<!-- KPI Panel -->
+<div style="background:white; border-radius:12px; box-shadow:0 1px 4px rgba(0,0,0,.06); margin-bottom:20px; overflow:hidden;">
+  <div style="display:grid; grid-template-columns:repeat(2,1fr);">
+    <div style="padding:14px 16px; border-right:1px solid #E2E8F0;">
+      <div style="display:flex; align-items:center; gap:6px; margin-bottom:10px;">
+        <div style="width:8px; height:8px; border-radius:50%; background:#475569; flex-shrink:0;"></div>
+        <span style="font-size:10px; font-weight:700; color:#2D3F5C; text-transform:uppercase; letter-spacing:.05em;">Cancelled</span>
+      </div>
+      <div style="display:flex; align-items:baseline; gap:12px; margin-bottom:6px;">
+        <div><div style="font-size:11px; color:#2D3F5C; margin-bottom:1px;">Mandates</div><div style="font-size:22px; font-weight:700; color:#172B4D; line-height:1;">4</div></div>
+      </div>
+      <div style="display:flex; align-items:flex-end; gap:3px; height:28px;">
+        <div style="flex:1; background:#E2E8F0; border-radius:2px 2px 0 0; height:45%;"></div>
+        <div style="flex:1; background:#E2E8F0; border-radius:2px 2px 0 0; height:55%;"></div>
+        <div style="flex:1; background:#E2E8F0; border-radius:2px 2px 0 0; height:50%;"></div>
+        <div style="flex:1; background:#E2E8F0; border-radius:2px 2px 0 0; height:65%;"></div>
+        <div style="flex:1; background:#E2E8F0; border-radius:2px 2px 0 0; height:75%;"></div>
+        <div style="flex:1; background:#475569; border-radius:2px 2px 0 0; height:100%;"></div>
+      </div>
+    </div>
+    <div style="padding:14px 16px;">
+      <div style="display:flex; align-items:center; gap:6px; margin-bottom:10px;">
+        <div style="width:8px; height:8px; border-radius:50%; background:#15803D; flex-shrink:0;"></div>
+        <span style="font-size:10px; font-weight:700; color:#2D3F5C; text-transform:uppercase; letter-spacing:.05em;">Total Collected Before Cancellation</span>
+      </div>
+      <div style="display:flex; align-items:baseline; gap:12px; margin-bottom:6px;">
+        <div><div style="font-size:11px; color:#2D3F5C; margin-bottom:1px;">Amount</div><div style="font-size:22px; font-weight:700; color:#172B4D; line-height:1;">AED 65,250</div></div>
+      </div>
+      <div style="display:flex; align-items:flex-end; gap:3px; height:28px;">
+        <div style="flex:1; background:#BBF7D0; border-radius:2px 2px 0 0; height:50%;"></div>
+        <div style="flex:1; background:#BBF7D0; border-radius:2px 2px 0 0; height:60%;"></div>
+        <div style="flex:1; background:#BBF7D0; border-radius:2px 2px 0 0; height:55%;"></div>
+        <div style="flex:1; background:#BBF7D0; border-radius:2px 2px 0 0; height:70%;"></div>
+        <div style="flex:1; background:#BBF7D0; border-radius:2px 2px 0 0; height:80%;"></div>
+        <div style="flex:1; background:#15803D; border-radius:2px 2px 0 0; height:100%;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Filter Bar + Export -->
+<div style="display:flex; flex-wrap:wrap; align-items:flex-end; gap:10px 12px; margin-bottom:12px;">
+  <div style="display:flex; flex-wrap:wrap; align-items:flex-end; gap:10px 12px; flex:1;">
+    <div style="display:flex; flex-direction:column; gap:4px;">
+      <label style="font-size:11px; font-weight:600; color:#2D3F5C;">Mandate Reference</label>
+      <input type="text" id="can002-filter-ref" placeholder="e.g. MND-00840" oninput="applyCan002Filters()" style="height:34px; padding:0 10px; font-size:12px; color:#172B4D; background:white; border:1.5px solid #E2E8F0; border-radius:8px; font-family:DM Sans,sans-serif; width:170px;"/>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:4px;">
+      <label style="font-size:11px; font-weight:600; color:#2D3F5C;">Payer Name</label>
+      <input type="text" id="can002-filter-payer" placeholder="e.g. Khalid Al Nuaimi" oninput="applyCan002Filters()" style="height:34px; padding:0 10px; font-size:12px; color:#172B4D; background:white; border:1.5px solid #E2E8F0; border-radius:8px; font-family:DM Sans,sans-serif; width:170px;"/>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:4px;">
+      <label style="font-size:11px; font-weight:600; color:#2D3F5C;">Cancelled On</label>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <select id="can002-date-mode" onchange="handleCan002DateModeChange()" style="height:34px; padding:0 28px 0 10px; font-size:12px; color:#172B4D; background:white; border:1.5px solid #E2E8F0; border-radius:8px; font-family:DM Sans,sans-serif; appearance:none; background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E&quot;); background-repeat:no-repeat; background-position:right 8px center; cursor:pointer; width:130px;">
+          <option value="none">Any date</option>
+          <option value="after">After</option>
+          <option value="before">Before</option>
+          <option value="between">Between</option>
+          <option value="except">Except the period</option>
+        </select>
+        <input type="date" id="can002-date-a" onchange="applyCan002Filters()" style="display:none; height:34px; padding:0 10px; font-size:12px; color:#172B4D; background:white; border:1.5px solid #E2E8F0; border-radius:8px; font-family:DM Sans,sans-serif;"/>
+        <span id="can002-date-sep" style="display:none; font-size:12px; color:#2D3F5C; font-weight:600;">and</span>
+        <input type="date" id="can002-date-b" onchange="applyCan002Filters()" style="display:none; height:34px; padding:0 10px; font-size:12px; color:#172B4D; background:white; border:1.5px solid #E2E8F0; border-radius:8px; font-family:DM Sans,sans-serif;"/>
+      </div>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:4px;">
+      <label style="font-size:11px; font-weight:600; color:transparent;">Clear</label>
+      <button type="button" onclick="clearCan002Filters()" style="height:34px; padding:0 14px; background:white; color:#2D3F5C; border:1.5px solid #E2E8F0; border-radius:8px; font-size:12px; font-weight:600; font-family:DM Sans,sans-serif; cursor:pointer;">Clear</button>
+    </div>
+  </div>
+  <div style="position:relative;" id="can002-export-wrapper">
+    <button type="button" onclick="toggleCan002Export()" style="display:inline-flex; align-items:center; gap:6px; height:36px; padding:0 14px; background:white; color:#172B4D; border:1.5px solid #E2E8F0; border-radius:8px; font-size:13px; font-weight:600; font-family:DM Sans,sans-serif; cursor:pointer;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Export
+    </button>
+    <div id="can002-export-menu" style="display:none; position:absolute; right:0; top:calc(100% + 4px); background:white; border:1px solid #E2E8F0; border-radius:8px; box-shadow:0 4px 16px rgba(0,0,0,0.08); min-width:150px; z-index:200; overflow:hidden;">
+      <button type="button" onclick="closeCan002Export()" style="display:block; width:100%; padding:10px 14px; text-align:left; font-size:13px; font-family:DM Sans,sans-serif; background:none; border:none; cursor:pointer; color:#172B4D;">Export as CSV</button>
+      <button type="button" onclick="closeCan002Export()" style="display:block; width:100%; padding:10px 14px; text-align:left; font-size:13px; font-family:DM Sans,sans-serif; background:none; border:none; cursor:pointer; color:#172B4D;">Export as Excel</button>
+      <button type="button" onclick="closeCan002Export()" style="display:block; width:100%; padding:10px 14px; text-align:left; font-size:13px; font-family:DM Sans,sans-serif; background:none; border:none; cursor:pointer; color:#172B4D;">Export as PDF</button>
+    </div>
+  </div>
+</div>
+
+<div class="card table-card">
+<div class="table-scroll">
+<table class="plans-table" aria-label="Cancelled Mandates">
+<colgroup>
+  <col style="width:145px"/>
+  <col style="width:130px"/>
+  <col style="width:95px"/>
+  <col style="width:100px"/>
+  <col style="width:110px"/>
+  <col style="width:110px"/>
+  <col style="width:120px"/>
+  <col style="width:100px"/>
+</colgroup>
+<thead>
+<tr>
+  <th scope="col">Mandate Reference
+    <button type="button" class="sort-btn" onclick="toggleSortDropdown(this, event, 'can002TableBody')"><span class="sort-arrow">↕</span></button>
+    <div class="sort-dropdown" style="display:none;">
+      <button type="button" onclick="applyTableSort('can002TableBody',0,'text','asc');closeSortDropdowns()">Sort A → Z</button>
+      <button type="button" onclick="applyTableSort('can002TableBody',0,'text','desc');closeSortDropdowns()">Sort Z → A</button>
+      <button type="button" onclick="closeSortDropdowns()">Clear Sort</button>
+    </div>
+  </th>
+  <th scope="col" class="col-payer-name">Payer Name
+    <button type="button" class="sort-btn" onclick="toggleSortDropdown(this, event, 'can002TableBody')"><span class="sort-arrow">↕</span></button>
+    <div class="sort-dropdown" style="display:none;">
+      <button type="button" onclick="applyTableSort('can002TableBody',1,'text','asc');closeSortDropdowns()">Sort A → Z</button>
+      <button type="button" onclick="applyTableSort('can002TableBody',1,'text','desc');closeSortDropdowns()">Sort Z → A</button>
+      <button type="button" onclick="closeSortDropdowns()">Clear Sort</button>
+    </div>
+  </th>
+  <th scope="col">Amount (AED)
+    <button type="button" class="sort-btn" onclick="toggleSortDropdown(this, event, 'can002TableBody')"><span class="sort-arrow">↕</span></button>
+    <div class="sort-dropdown" style="display:none;">
+      <button type="button" onclick="applyTableSort('can002TableBody',2,'number','asc');closeSortDropdowns()">Sort Low → High</button>
+      <button type="button" onclick="applyTableSort('can002TableBody',2,'number','desc');closeSortDropdowns()">Sort High → Low</button>
+      <button type="button" onclick="closeSortDropdowns()">Clear Sort</button>
+    </div>
+  </th>
+  <th scope="col">Frequency
+    <button type="button" class="sort-btn" onclick="toggleSortDropdown(this, event, 'can002TableBody')"><span class="sort-arrow">↕</span></button>
+    <div class="sort-dropdown" style="display:none;">
+      <button type="button" onclick="applyTableSort('can002TableBody',3,'text','asc');closeSortDropdowns()">Sort A → Z</button>
+      <button type="button" onclick="applyTableSort('can002TableBody',3,'text','desc');closeSortDropdowns()">Sort Z → A</button>
+      <button type="button" onclick="closeSortDropdowns()">Clear Sort</button>
+    </div>
+  </th>
+  <th scope="col">Requested On
+    <button type="button" class="sort-btn" onclick="toggleSortDropdown(this, event, 'can002TableBody')"><span class="sort-arrow">↕</span></button>
+    <div class="sort-dropdown" style="display:none;">
+      <button type="button" onclick="applyTableSort('can002TableBody',4,'date','asc');closeSortDropdowns()">Sort Oldest First</button>
+      <button type="button" onclick="applyTableSort('can002TableBody',4,'date','desc');closeSortDropdowns()">Sort Newest First</button>
+      <button type="button" onclick="closeSortDropdowns()">Clear Sort</button>
+    </div>
+  </th>
+  <th scope="col">Cancelled On
+    <button type="button" class="sort-btn" onclick="toggleSortDropdown(this, event, 'can002TableBody')"><span class="sort-arrow">↕</span></button>
+    <div class="sort-dropdown" style="display:none;">
+      <button type="button" onclick="applyTableSort('can002TableBody',5,'date','asc');closeSortDropdowns()">Sort Oldest First</button>
+      <button type="button" onclick="applyTableSort('can002TableBody',5,'date','desc');closeSortDropdowns()">Sort Newest First</button>
+      <button type="button" onclick="closeSortDropdowns()">Clear Sort</button>
+    </div>
+  </th>
+  <th scope="col">Total Collected (AED)
+    <button type="button" class="sort-btn" onclick="toggleSortDropdown(this, event, 'can002TableBody')"><span class="sort-arrow">↕</span></button>
+    <div class="sort-dropdown" style="display:none;">
+      <button type="button" onclick="applyTableSort('can002TableBody',6,'number','asc');closeSortDropdowns()">Sort Low → High</button>
+      <button type="button" onclick="applyTableSort('can002TableBody',6,'number','desc');closeSortDropdowns()">Sort High → Low</button>
+      <button type="button" onclick="closeSortDropdowns()">Clear Sort</button>
+    </div>
+  </th>
+  <th scope="col">Status</th>
+</tr>
+</thead>
+<tbody id="can002TableBody">
+<tr data-search="mnd-00840 khalid al nuaimi" data-cancelled="15/05/2026">
+  <td><a class="link-mandate" href="#">MND-00840</a></td>
+  <td class="col-payer-name">Khalid Al Nuaimi</td>
+  <td>AED 3,200</td>
+  <td>Monthly</td>
+  <td>01/05/2026</td>
+  <td>15/05/2026</td>
+  <td>AED 16,000</td>
+  <td><span class="badge badge-cancelled">Cancelled</span></td>
+</tr>
+<tr data-search="mnd-00841 hessa al blooshi" data-cancelled="18/05/2026">
+  <td><a class="link-mandate" href="#">MND-00841</a></td>
+  <td class="col-payer-name">Hessa Al Blooshi</td>
+  <td>AED 8,000</td>
+  <td>Quarterly</td>
+  <td>05/05/2026</td>
+  <td>18/05/2026</td>
+  <td>AED 32,000</td>
+  <td><span class="badge badge-cancelled">Cancelled</span></td>
+</tr>
+<tr data-search="mnd-00842 rashed al qubaisi" data-cancelled="22/05/2026">
+  <td><a class="link-mandate" href="#">MND-00842</a></td>
+  <td class="col-payer-name">Rashed Al Qubaisi</td>
+  <td>Variable</td>
+  <td>Monthly</td>
+  <td>10/05/2026</td>
+  <td>22/05/2026</td>
+  <td>AED 9,750</td>
+  <td><span class="badge badge-cancelled">Cancelled</span></td>
+</tr>
+<tr data-search="mnd-00843 latifa al marzouqi" data-cancelled="25/05/2026">
+  <td><a class="link-mandate" href="#">MND-00843</a></td>
+  <td class="col-payer-name">Latifa Al Marzouqi</td>
+  <td>AED 1,500</td>
+  <td>Weekly</td>
+  <td>15/05/2026</td>
+  <td>25/05/2026</td>
+  <td>AED 7,500</td>
+  <td><span class="badge badge-cancelled">Cancelled</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</main>
+</div>
+</div>
+</section>
+
+<script>
+function showCanScreen(screenId) {
+  document.querySelectorAll('.can-screen-section').forEach(s => s.style.display = 'none');
+  const target = document.getElementById(screenId);
+  if (target) target.style.display = 'block';
+  setCanActiveNav(screenId);
+  document.querySelectorAll('.can-proto-nav').forEach(a => {
+    a.classList.toggle('active', a.getAttribute('data-screen') === screenId);
+  });
+  expandMandatesNav();
+  try { history.replaceState(null, '', '#' + screenId); } catch (e) {}
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+function setCanActiveNav(screenId) {
+  document.querySelectorAll('.can-nav-sub').forEach(a => {
+    a.classList.toggle('active', a.getAttribute('data-screen') === screenId);
+  });
+}
+
+function expandMandatesNav() {
+  document.querySelectorAll('#nav-sub-mandates, .nav-sub-mandates').forEach(sub => {
+    sub.style.display = 'flex';
+  });
+  document.querySelectorAll('#nav-group-mandates-chevron, .nav-group-mandates-chevron').forEach(c => {
+    c.style.transform = 'rotate(180deg)';
+  });
+}
+
+function toggleNavGroup(name) {
+  document.querySelectorAll('#nav-sub-' + name + ', .nav-sub-' + name).forEach(sub => {
+    const open = sub.style.display !== 'none';
+    sub.style.display = open ? 'none' : 'flex';
+  });
+  document.querySelectorAll('#nav-group-' + name + '-chevron, .nav-group-' + name + '-chevron').forEach(chevron => {
+    const sub = document.querySelector('#nav-sub-' + name) || document.querySelector('.nav-sub-' + name);
+    const open = sub && sub.style.display !== 'none';
+    chevron.style.transform = open ? 'rotate(180deg)' : '';
+  });
+}
+
+function parseDate(d) {
+  if (!d || d === '—') return new Date(0);
+  const [day, mon, yr] = d.split('/');
+  return new Date(yr, mon - 1, day);
+}
+
+function parseAmount(val) {
+  if (val === 'Variable') return -1;
+  return parseFloat(String(val).replace(/[^\d.]/g, '')) || 0;
+}
+
+function matchDateFilter(dateStr, mode, dateA, dateB) {
+  if (mode === 'none' || !dateStr) return true;
+  const d = parseDate(dateStr);
+  if (mode === 'after' && dateA) return d > new Date(dateA);
+  if (mode === 'before' && dateA) return d < new Date(dateA);
+  if (mode === 'between' && dateA && dateB) return d >= new Date(dateA) && d <= new Date(dateB + 'T23:59:59');
+  if (mode === 'except' && dateA && dateB) return d < new Date(dateA) || d > new Date(dateB + 'T23:59:59');
+  return true;
+}
+
+function handleCan001DateModeChange() {
+  const mode = document.getElementById('can001-date-mode')?.value;
+  const a = document.getElementById('can001-date-a');
+  const b = document.getElementById('can001-date-b');
+  const sep = document.getElementById('can001-date-sep');
+  if (!a || !b || !sep) return;
+  a.value = ''; b.value = '';
+  if (mode === 'none') {
+    a.style.display = 'none'; b.style.display = 'none'; sep.style.display = 'none';
+  } else if (mode === 'after' || mode === 'before') {
+    a.style.display = ''; b.style.display = 'none'; sep.style.display = 'none';
+  } else {
+    a.style.display = ''; b.style.display = ''; sep.style.display = '';
+  }
+  applyCan001Filters();
+}
+
+function applyCan001Filters() {
+  const ref = (document.getElementById('can001-filter-ref')?.value || '').toLowerCase().trim();
+  const payer = (document.getElementById('can001-filter-payer')?.value || '').toLowerCase().trim();
+  const requestedBy = document.getElementById('can001-filter-requested-by')?.value || 'all';
+  const status = document.getElementById('can001-filter-status')?.value || '';
+  const mode = document.getElementById('can001-date-mode')?.value || 'none';
+  const dateA = document.getElementById('can001-date-a')?.value || '';
+  const dateB = document.getElementById('can001-date-b')?.value || '';
+  const topSearch = (document.getElementById('can001-topbar-search')?.value || '').toLowerCase().trim();
+
+  document.querySelectorAll('#canPendingTableBody tr').forEach(tr => {
+    const searchStr = (tr.getAttribute('data-search') || '').toLowerCase();
+    const reqBy = tr.getAttribute('data-requested-by') || '';
+    const reqDate = tr.getAttribute('data-requested') || '';
+    const rowStatus = tr.getAttribute('data-status') || '';
+    const okRef = !ref || searchStr.includes(ref);
+    const okPayer = !payer || searchStr.includes(payer);
+    const okTop = !topSearch || searchStr.includes(topSearch);
+    const okReqBy = requestedBy === 'all' || reqBy === requestedBy;
+    const okStatus = !status || rowStatus === status;
+    const okDate = matchDateFilter(reqDate, mode, dateA, dateB);
+    tr.style.display = okRef && okPayer && okTop && okReqBy && okStatus && okDate ? '' : 'none';
+  });
+}
+
+function clearCan001Filters() {
+  ['can001-filter-ref', 'can001-filter-payer', 'can001-date-a', 'can001-date-b', 'can001-topbar-search'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  const sel = document.getElementById('can001-filter-requested-by');
+  if (sel) sel.value = 'all';
+  const statusSel = document.getElementById('can001-filter-status');
+  if (statusSel) statusSel.value = '';
+  const mode = document.getElementById('can001-date-mode');
+  if (mode) mode.value = 'none';
+  handleCan001DateModeChange();
+}
+
+function handleCan002DateModeChange() {
+  const mode = document.getElementById('can002-date-mode')?.value;
+  const a = document.getElementById('can002-date-a');
+  const b = document.getElementById('can002-date-b');
+  const sep = document.getElementById('can002-date-sep');
+  if (!a || !b || !sep) return;
+  a.value = ''; b.value = '';
+  if (mode === 'none') {
+    a.style.display = 'none'; b.style.display = 'none'; sep.style.display = 'none';
+  } else if (mode === 'after' || mode === 'before') {
+    a.style.display = ''; b.style.display = 'none'; sep.style.display = 'none';
+  } else {
+    a.style.display = ''; b.style.display = ''; sep.style.display = '';
+  }
+  applyCan002Filters();
+}
+
+function applyCan002Filters() {
+  const ref = (document.getElementById('can002-filter-ref')?.value || '').toLowerCase().trim();
+  const payer = (document.getElementById('can002-filter-payer')?.value || '').toLowerCase().trim();
+  const mode = document.getElementById('can002-date-mode')?.value || 'none';
+  const dateA = document.getElementById('can002-date-a')?.value || '';
+  const dateB = document.getElementById('can002-date-b')?.value || '';
+  const topSearch = (document.getElementById('can002-topbar-search')?.value || '').toLowerCase().trim();
+
+  document.querySelectorAll('#can002TableBody tr').forEach(tr => {
+    const searchStr = (tr.getAttribute('data-search') || '').toLowerCase();
+    const cancelledDate = tr.getAttribute('data-cancelled') || '';
+    const okRef = !ref || searchStr.includes(ref);
+    const okPayer = !payer || searchStr.includes(payer);
+    const okTop = !topSearch || searchStr.includes(topSearch);
+    const okDate = matchDateFilter(cancelledDate, mode, dateA, dateB);
+    tr.style.display = okRef && okPayer && okTop && okDate ? '' : 'none';
+  });
+}
+
+function clearCan002Filters() {
+  ['can002-filter-ref', 'can002-filter-payer', 'can002-date-a', 'can002-date-b', 'can002-topbar-search'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  const mode = document.getElementById('can002-date-mode');
+  if (mode) mode.value = 'none';
+  handleCan002DateModeChange();
+}
+
+function toggleCan002Export() {
+  const m = document.getElementById('can002-export-menu');
+  if (m) m.style.display = m.style.display === 'block' ? 'none' : 'block';
+}
+
+function closeCan002Export() {
+  const m = document.getElementById('can002-export-menu');
+  if (m) m.style.display = 'none';
+}
+
+function toggleSortDropdown(btn, event) {
+  event.stopPropagation();
+  const dropdown = btn.nextElementSibling;
+  if (!dropdown || !dropdown.classList.contains('sort-dropdown')) return;
+  const isOpen = dropdown.style.display === 'block';
+  closeSortDropdowns();
+  if (!isOpen) dropdown.style.display = 'block';
+}
+
+function closeSortDropdowns() {
+  document.querySelectorAll('.sort-dropdown').forEach(d => d.style.display = 'none');
+}
+
+document.addEventListener('click', function(e) {
+  closeSortDropdowns();
+  const wrap = document.getElementById('can002-export-wrapper');
+  if (wrap && !wrap.contains(e.target)) closeCan002Export();
+});
+
+function applyTableSort(tbodyId, colIndex, type, dir) {
+  const tbody = document.getElementById(tbodyId);
+  if (!tbody) return;
+  const rows = Array.from(tbody.querySelectorAll('tr'));
+  rows.sort((a, b) => {
+    const aVal = a.cells[colIndex].textContent.trim();
+    const bVal = b.cells[colIndex].textContent.trim();
+    if (type === 'date') {
+      return dir === 'asc' ? parseDate(aVal) - parseDate(bVal) : parseDate(bVal) - parseDate(aVal);
+    }
+    if (type === 'number') {
+      const aNum = parseAmount(aVal);
+      const bNum = parseAmount(bVal);
+      return dir === 'asc' ? aNum - bNum : bNum - aNum;
+    }
+    return dir === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+  });
+  rows.forEach(r => tbody.appendChild(r));
+}
+
+function bootPhase8() {
+  const hash = (location.hash || '#screen-can001').replace('#', '');
+  const id = document.getElementById(hash) ? hash : 'screen-can001';
+  showCanScreen(id);
+  expandMandatesNav();
+  document.getElementById('can001-topbar-search')?.addEventListener('input', applyCan001Filters);
+  document.getElementById('can002-topbar-search')?.addEventListener('input', applyCan002Filters);
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+window.addEventListener('hashchange', () => {
+  const id = (location.hash || '#screen-can001').replace('#', '');
+  if (document.getElementById(id)) showCanScreen(id);
+});
+
+window.addEventListener('load', bootPhase8);
+</script>
+</body>
+</html>
