@@ -243,6 +243,14 @@
       text-overflow: unset !important; word-break: break-word !important;
       overflow-wrap: break-word !important; max-width: 1px;
     }
+    .plans-table td.col-mandate-ref {
+      white-space: normal !important; overflow: visible !important;
+      text-overflow: unset !important; word-break: break-word !important;
+    }
+    .mandate-subline {
+      display: block; margin-top: 2px;
+      font-size: 10px; font-weight: 500; color: var(--txt-muted); line-height: 1.3;
+    }
     .link-mandate {
       color: var(--teal); font-weight: 600; text-decoration: underline; text-underline-offset: 2px;
       cursor: pointer;
@@ -253,18 +261,7 @@
       padding: 2px 8px; max-width: 100%;
     }
     .badge-cancellation-pending { background: #FEF9C3; color: #854D0E; }
-    .bdg-cancel-rejected {
-      display: inline-block;
-      background: #FEF2F2;
-      color: #DC2626;
-      padding: 3px 10px;
-      border-radius: 10px;
-      font-family: DM Sans, sans-serif;
-      font-size: 12px;
-      font-weight: 700;
-      white-space: normal;
-      word-break: break-word;
-    }
+    .badge-cancellation-rejected { background: #FEF2F2; color: #DC2626; }
     .badge-cancelled { background: #F1F5F9; color: #475569; }
 
     .sort-btn {
@@ -376,7 +373,7 @@
         <span style="font-size:10px; font-weight:700; color:#2D3F5C; text-transform:uppercase; letter-spacing:.05em;">Cancellation Pending</span>
       </div>
       <div style="display:flex; align-items:baseline; gap:12px; margin-bottom:6px;">
-        <div><div style="font-size:11px; color:#2D3F5C; margin-bottom:1px;">Mandates</div><div style="font-size:22px; font-weight:700; color:#172B4D; line-height:1;">4</div></div>
+        <div><div style="font-size:11px; color:#2D3F5C; margin-bottom:1px;">Mandates</div><div style="font-size:22px; font-weight:700; color:#172B4D; line-height:1;">5</div></div>
         <div style="width:1px; height:28px; background:#E2E8F0; flex-shrink:0;"></div>
         <div><div style="font-size:11px; color:#2D3F5C; margin-bottom:1px;">Amount</div><div style="font-size:22px; font-weight:700; color:#172B4D; line-height:1;">AED 19,500</div></div>
       </div>
@@ -549,7 +546,20 @@
   <td>28/05/2026</td>
   <td>Merchant Admin</td>
   <td>3</td>
-  <td><span class="bdg-cancel-rejected">Cancel Rejected</span></td>
+  <td><span class="badge badge-cancellation-rejected">Cancel Rejected</span></td>
+</tr>
+<tr data-search="mnd-00856 mnd-00851 sara al hamdan" data-requested="01/06/2026" data-requested-by="merchant" data-status="cancellation-pending" data-replacement-for="MND-00851">
+  <td class="col-mandate-ref">
+    <a class="link-mandate" href="#">MND-00856</a>
+    <span class="mandate-subline">(Replacement Mandate)</span>
+  </td>
+  <td class="col-payer-name">Sara Al Hamdan</td>
+  <td>AED 5,000</td>
+  <td>Monthly</td>
+  <td>01/06/2026</td>
+  <td>Auto-cancelled</td>
+  <td>1</td>
+  <td><span class="badge badge-cancellation-pending">Cancellation Pending</span></td>
 </tr>
 <tr data-search="mnd-00852 mohammed al rashidi" data-requested="25/05/2026" data-requested-by="ops" data-status="cancellation-rejected">
   <td><a class="link-mandate" href="#">MND-00852</a></td>
@@ -559,7 +569,7 @@
   <td>25/05/2026</td>
   <td>Admin (Ops)</td>
   <td>2</td>
-  <td><span class="bdg-cancel-rejected">Cancel Rejected</span></td>
+  <td><span class="badge badge-cancellation-rejected">Cancel Rejected</span></td>
 </tr>
 <tr data-search="mnd-00853 fatima al zaabi" data-requested="20/05/2026" data-requested-by="merchant" data-status="cancellation-pending">
   <td><a class="link-mandate" href="#">MND-00853</a></td>
@@ -653,7 +663,7 @@
         <span style="font-size:10px; font-weight:700; color:#2D3F5C; text-transform:uppercase; letter-spacing:.05em;">Cancelled</span>
       </div>
       <div style="display:flex; align-items:baseline; gap:12px; margin-bottom:6px;">
-        <div><div style="font-size:11px; color:#2D3F5C; margin-bottom:1px;">Mandates</div><div style="font-size:22px; font-weight:700; color:#172B4D; line-height:1;">4</div></div>
+        <div><div style="font-size:11px; color:#2D3F5C; margin-bottom:1px;">Mandates</div><div style="font-size:22px; font-weight:700; color:#172B4D; line-height:1;">5</div></div>
       </div>
       <div style="display:flex; align-items:flex-end; gap:3px; height:28px;">
         <div style="flex:1; background:#E2E8F0; border-radius:2px 2px 0 0; height:45%;"></div>
@@ -821,6 +831,19 @@
   <td>05/05/2026</td>
   <td>18/05/2026</td>
   <td>AED 32,000</td>
+  <td><span class="badge badge-cancelled">Cancelled</span></td>
+</tr>
+<tr data-search="mnd-00842r mnd-00841 hessa al blooshi" data-cancelled="18/05/2026" data-replacement-for="MND-00841">
+  <td class="col-mandate-ref">
+    <a class="link-mandate" href="#">MND-00842R</a>
+    <span class="mandate-subline">(Replacement Mandate)</span>
+  </td>
+  <td class="col-payer-name">Hessa Al Blooshi</td>
+  <td>AED 8,000</td>
+  <td>Quarterly</td>
+  <td>05/05/2026</td>
+  <td>18/05/2026</td>
+  <td>—</td>
   <td><span class="badge badge-cancelled">Cancelled</span></td>
 </tr>
 <tr data-search="mnd-00842 rashed al qubaisi" data-cancelled="22/05/2026">
