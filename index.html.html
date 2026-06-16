@@ -243,14 +243,6 @@
       text-overflow: unset !important; word-break: break-word !important;
       overflow-wrap: break-word !important; max-width: 1px;
     }
-    .plans-table td.col-mandate-ref {
-      white-space: normal !important; overflow: visible !important;
-      text-overflow: unset !important; word-break: break-word !important;
-    }
-    .mandate-subline {
-      display: block; margin-top: 2px;
-      font-size: 10px; font-weight: 500; color: var(--txt-muted); line-height: 1.3;
-    }
     .link-mandate {
       color: var(--teal); font-weight: 600; text-decoration: underline; text-underline-offset: 2px;
       cursor: pointer;
@@ -293,6 +285,7 @@
   <span class="proto-label">Phase 8 — All Screens:</span>
   <a href="#screen-can001" class="can-proto-nav active" data-screen="screen-can001" onclick="showCanScreen('screen-can001'); return false;">SCR-CAN-001: Cancellation Pending</a>
   <a href="#screen-can002" class="can-proto-nav" data-screen="screen-can002" onclick="showCanScreen('screen-can002'); return false;">SCR-CAN-002: Cancelled Mandates</a>
+  <a href="#screen-can003" class="can-proto-nav" data-screen="screen-can003" onclick="showCanScreen('screen-can003'); return false;">SCR-CAN-003: Cancelled Mandate Profile</a>
 </nav>
 
 <!-- SCR-CAN-001: Cancellation Pending -->
@@ -321,6 +314,7 @@
     <a class="nav-item nav-sub-item can-nav-sub" href="#" data-screen="screen-mnd001"><i data-lucide="list" style="width:15px; height:15px;"></i>Mandates</a>
     <a class="nav-item nav-sub-item can-nav-sub active" href="#screen-can001" data-screen="screen-can001" onclick="showCanScreen('screen-can001'); return false;"><i data-lucide="clock" style="width:15px; height:15px;"></i>Cancellation Pending</a>
     <a class="nav-item nav-sub-item can-nav-sub" href="#screen-can002" data-screen="screen-can002" onclick="showCanScreen('screen-can002'); return false;"><i data-lucide="archive" style="width:15px; height:15px;"></i>Cancelled Mandates</a>
+    <a class="nav-item nav-sub-item can-nav-sub" href="#screen-can003" data-screen="screen-can003" onclick="showCanScreen('screen-can003'); return false;"><i data-lucide="file-search" style="width:15px; height:15px;"></i>Cancelled Mandate Profile</a>
   </div>
 </div>
 <a href="../phase_4/phase-4-all-screens.html#screen-rej001" class="nav-item"><i data-lucide="x-circle"></i><span>Rejections</span></a>
@@ -373,7 +367,7 @@
         <span style="font-size:10px; font-weight:700; color:#2D3F5C; text-transform:uppercase; letter-spacing:.05em;">Cancellation Pending</span>
       </div>
       <div style="display:flex; align-items:baseline; gap:12px; margin-bottom:6px;">
-        <div><div style="font-size:11px; color:#2D3F5C; margin-bottom:1px;">Mandates</div><div style="font-size:22px; font-weight:700; color:#172B4D; line-height:1;">5</div></div>
+        <div><div style="font-size:11px; color:#2D3F5C; margin-bottom:1px;">Mandates</div><div style="font-size:22px; font-weight:700; color:#172B4D; line-height:1;">4</div></div>
         <div style="width:1px; height:28px; background:#E2E8F0; flex-shrink:0;"></div>
         <div><div style="font-size:11px; color:#2D3F5C; margin-bottom:1px;">Amount</div><div style="font-size:22px; font-weight:700; color:#172B4D; line-height:1;">AED 19,500</div></div>
       </div>
@@ -415,6 +409,20 @@
   <div style="display:flex; flex-direction:column; gap:4px;">
     <label style="font-size:11px; font-weight:600; color:#2D3F5C;">Payer Name</label>
     <input type="text" id="can001-filter-payer" placeholder="e.g. Ahmed Al Marzouqi" oninput="applyCan001Filters()" style="height:34px; padding:0 10px; font-size:12px; color:#172B4D; background:white; border:1.5px solid #E2E8F0; border-radius:8px; font-family:DM Sans,sans-serif; width:170px;"/>
+  </div>
+  <div style="display:flex; flex-direction:column; gap:4px;">
+    <label style="font-size:11px; font-weight:600; color:#2D3F5C;">Frequency</label>
+    <select id="can001-filter-freq" onchange="applyCan001Filters()"
+      style="height:34px; padding:0 28px 0 10px; font-size:12px; color:#172B4D; background:white; border:1.5px solid #E2E8F0; border-radius:8px; font-family:DM Sans,sans-serif; appearance:none; background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E&quot;); background-repeat:no-repeat; background-position:right 8px center; cursor:pointer; width:150px;">
+      <option value="">All Frequencies</option>
+      <option value="Daily">Daily</option>
+      <option value="Weekly">Weekly</option>
+      <option value="Monthly">Monthly</option>
+      <option value="Quarterly">Quarterly</option>
+      <option value="Half-Yearly">Half-Yearly</option>
+      <option value="Annually">Annually</option>
+      <option value="One-Time">One-Time</option>
+    </select>
   </div>
   <div style="display:flex; flex-direction:column; gap:4px;">
     <label style="font-size:11px; font-weight:600; color:#2D3F5C;">Requested On</label>
@@ -528,7 +536,7 @@
 </tr>
 </thead>
 <tbody id="canPendingTableBody">
-<tr data-search="mnd-00850 ahmed al marzouqi" data-requested="01/06/2026" data-requested-by="ops" data-status="cancellation-pending">
+<tr data-search="mnd-00850 ahmed al marzouqi" data-requested="01/06/2026" data-requested-by="ops" data-status="cancellation-pending" data-freq="Monthly">
   <td><a class="link-mandate" href="#">MND-00850</a></td>
   <td class="col-payer-name">Ahmed Al Marzouqi</td>
   <td>AED 2,500</td>
@@ -538,7 +546,7 @@
   <td>1</td>
   <td><span class="badge badge-cancellation-pending">Cancellation Pending</span></td>
 </tr>
-<tr data-search="mnd-00851 sara al hamdan" data-requested="28/05/2026" data-requested-by="merchant" data-status="cancellation-rejected">
+<tr data-search="mnd-00851 sara al hamdan" data-requested="28/05/2026" data-requested-by="merchant" data-status="cancellation-rejected" data-freq="Monthly">
   <td><a class="link-mandate" href="#">MND-00851</a></td>
   <td class="col-payer-name">Sara Al Hamdan</td>
   <td>AED 5,000</td>
@@ -548,20 +556,7 @@
   <td>3</td>
   <td><span class="badge badge-cancellation-rejected">Cancel Rejected</span></td>
 </tr>
-<tr data-search="mnd-00856 mnd-00851 sara al hamdan" data-requested="01/06/2026" data-requested-by="merchant" data-status="cancellation-pending" data-replacement-for="MND-00851">
-  <td class="col-mandate-ref">
-    <a class="link-mandate" href="#">MND-00856</a>
-    <span class="mandate-subline">(Replacement Mandate)</span>
-  </td>
-  <td class="col-payer-name">Sara Al Hamdan</td>
-  <td>AED 5,000</td>
-  <td>Monthly</td>
-  <td>01/06/2026</td>
-  <td>Auto-cancelled</td>
-  <td>1</td>
-  <td><span class="badge badge-cancellation-pending">Cancellation Pending</span></td>
-</tr>
-<tr data-search="mnd-00852 mohammed al rashidi" data-requested="25/05/2026" data-requested-by="ops" data-status="cancellation-rejected">
+<tr data-search="mnd-00852 mohammed al rashidi" data-requested="25/05/2026" data-requested-by="ops" data-status="cancellation-rejected" data-freq="Quarterly">
   <td><a class="link-mandate" href="#">MND-00852</a></td>
   <td class="col-payer-name">Mohammed Al Rashidi</td>
   <td>Variable</td>
@@ -571,7 +566,7 @@
   <td>2</td>
   <td><span class="badge badge-cancellation-rejected">Cancel Rejected</span></td>
 </tr>
-<tr data-search="mnd-00853 fatima al zaabi" data-requested="20/05/2026" data-requested-by="merchant" data-status="cancellation-pending">
+<tr data-search="mnd-00853 fatima al zaabi" data-requested="20/05/2026" data-requested-by="merchant" data-status="cancellation-pending" data-freq="Half-Yearly">
   <td><a class="link-mandate" href="#">MND-00853</a></td>
   <td class="col-payer-name">Fatima Al Zaabi</td>
   <td>AED 12,000</td>
@@ -616,6 +611,7 @@
     <a class="nav-item nav-sub-item can-nav-sub" href="#" data-screen="screen-mnd001"><i data-lucide="list" style="width:15px; height:15px;"></i>Mandates</a>
     <a class="nav-item nav-sub-item can-nav-sub" href="#screen-can001" data-screen="screen-can001" onclick="showCanScreen('screen-can001'); return false;"><i data-lucide="clock" style="width:15px; height:15px;"></i>Cancellation Pending</a>
     <a class="nav-item nav-sub-item can-nav-sub active" href="#screen-can002" data-screen="screen-can002" onclick="showCanScreen('screen-can002'); return false;"><i data-lucide="archive" style="width:15px; height:15px;"></i>Cancelled Mandates</a>
+    <a class="nav-item nav-sub-item can-nav-sub" href="#screen-can003" data-screen="screen-can003" onclick="showCanScreen('screen-can003'); return false;"><i data-lucide="file-search" style="width:15px; height:15px;"></i>Cancelled Mandate Profile</a>
   </div>
 </div>
 <a href="../phase_4/phase-4-all-screens.html#screen-rej001" class="nav-item"><i data-lucide="x-circle"></i><span>Rejections</span></a>
@@ -663,7 +659,7 @@
         <span style="font-size:10px; font-weight:700; color:#2D3F5C; text-transform:uppercase; letter-spacing:.05em;">Cancelled</span>
       </div>
       <div style="display:flex; align-items:baseline; gap:12px; margin-bottom:6px;">
-        <div><div style="font-size:11px; color:#2D3F5C; margin-bottom:1px;">Mandates</div><div style="font-size:22px; font-weight:700; color:#172B4D; line-height:1;">5</div></div>
+        <div><div style="font-size:11px; color:#2D3F5C; margin-bottom:1px;">Mandates</div><div style="font-size:22px; font-weight:700; color:#172B4D; line-height:1;">4</div></div>
       </div>
       <div style="display:flex; align-items:flex-end; gap:3px; height:28px;">
         <div style="flex:1; background:#E2E8F0; border-radius:2px 2px 0 0; height:45%;"></div>
@@ -706,6 +702,45 @@
       <input type="text" id="can002-filter-payer" placeholder="e.g. Khalid Al Nuaimi" oninput="applyCan002Filters()" style="height:34px; padding:0 10px; font-size:12px; color:#172B4D; background:white; border:1.5px solid #E2E8F0; border-radius:8px; font-family:DM Sans,sans-serif; width:170px;"/>
     </div>
     <div style="display:flex; flex-direction:column; gap:4px;">
+      <label style="font-size:11px; font-weight:600; color:#2D3F5C;">Frequency</label>
+      <select id="can002-filter-freq" onchange="applyCan002Filters()"
+        style="height:34px; padding:0 28px 0 10px; font-size:12px; color:#172B4D; background:white; border:1.5px solid #E2E8F0; border-radius:8px; font-family:DM Sans,sans-serif; appearance:none; background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E&quot;); background-repeat:no-repeat; background-position:right 8px center; cursor:pointer; width:150px;">
+        <option value="">All Frequencies</option>
+        <option value="Daily">Daily</option>
+        <option value="Weekly">Weekly</option>
+        <option value="Monthly">Monthly</option>
+        <option value="Quarterly">Quarterly</option>
+        <option value="Half-Yearly">Half-Yearly</option>
+        <option value="Annually">Annually</option>
+        <option value="One-Time">One-Time</option>
+      </select>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:4px;">
+      <label style="font-size:11px; font-weight:600; color:#2D3F5C;">Requested By</label>
+      <select id="can002-filter-reqby" onchange="applyCan002Filters()"
+        style="height:34px; padding:0 28px 0 10px; font-size:12px; color:#172B4D; background:white; border:1.5px solid #E2E8F0; border-radius:8px; font-family:DM Sans,sans-serif; appearance:none; background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E&quot;); background-repeat:no-repeat; background-position:right 8px center; cursor:pointer; width:150px;">
+        <option value="">All</option>
+        <option value="merchant">Merchant</option>
+        <option value="ops">Ops</option>
+      </select>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:4px;">
+      <label style="font-size:11px; font-weight:600; color:#2D3F5C;">Requested On</label>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <select id="can002-reqdate-mode" onchange="handleCan002ReqDateModeChange()"
+          style="height:34px; padding:0 28px 0 10px; font-size:12px; color:#172B4D; background:white; border:1.5px solid #E2E8F0; border-radius:8px; font-family:DM Sans,sans-serif; appearance:none; background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E&quot;); background-repeat:no-repeat; background-position:right 8px center; cursor:pointer; width:120px;">
+          <option value="none">Any date</option>
+          <option value="after">After</option>
+          <option value="before">Before</option>
+          <option value="between">Between</option>
+          <option value="except">Except the period</option>
+        </select>
+        <input type="date" id="can002-reqdate-a" onchange="applyCan002Filters()" style="display:none; height:34px; padding:0 10px; font-size:12px; color:#172B4D; background:white; border:1.5px solid #E2E8F0; border-radius:8px;"/>
+        <span id="can002-reqdate-sep" style="display:none; font-size:12px; color:#2D3F5C; font-weight:600;">and</span>
+        <input type="date" id="can002-reqdate-b" onchange="applyCan002Filters()" style="display:none; height:34px; padding:0 10px; font-size:12px; color:#172B4D; background:white; border:1.5px solid #E2E8F0; border-radius:8px;"/>
+      </div>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:4px;">
       <label style="font-size:11px; font-weight:600; color:#2D3F5C;">Cancelled On</label>
       <div style="display:flex; align-items:center; gap:6px;">
         <select id="can002-date-mode" onchange="handleCan002DateModeChange()" style="height:34px; padding:0 28px 0 10px; font-size:12px; color:#172B4D; background:white; border:1.5px solid #E2E8F0; border-radius:8px; font-family:DM Sans,sans-serif; appearance:none; background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E&quot;); background-repeat:no-repeat; background-position:right 8px center; cursor:pointer; width:130px;">
@@ -726,7 +761,7 @@
     </div>
   </div>
   <div style="position:relative;" id="can002-export-wrapper">
-    <button type="button" onclick="toggleCan002Export()" style="display:inline-flex; align-items:center; gap:6px; height:36px; padding:0 14px; background:white; color:#172B4D; border:1.5px solid #E2E8F0; border-radius:8px; font-size:13px; font-weight:600; font-family:DM Sans,sans-serif; cursor:pointer;">
+    <button type="button" onclick="toggleCan002Export()" title="Export includes: Mandate Reference, Payer Name, Amount, Frequency, Start Date, End Date, Requested On, Requested By, Cancelled On, Total Collected Before Cancellation" style="display:inline-flex; align-items:center; gap:6px; height:36px; padding:0 14px; background:white; color:#172B4D; border:1.5px solid #E2E8F0; border-radius:8px; font-size:13px; font-weight:600; font-family:DM Sans,sans-serif; cursor:pointer;">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
       Export
     </button>
@@ -749,7 +784,6 @@
   <col style="width:110px"/>
   <col style="width:110px"/>
   <col style="width:120px"/>
-  <col style="width:100px"/>
 </colgroup>
 <thead>
 <tr>
@@ -809,67 +843,320 @@
       <button type="button" onclick="closeSortDropdowns()">Clear Sort</button>
     </div>
   </th>
-  <th scope="col">Status</th>
 </tr>
 </thead>
 <tbody id="can002TableBody">
-<tr data-search="mnd-00840 khalid al nuaimi" data-cancelled="15/05/2026">
-  <td><a class="link-mandate" href="#">MND-00840</a></td>
+<tr data-search="mnd-00840 khalid al nuaimi" data-cancelled="15/05/2026" data-freq="Monthly" data-reqby="ops" data-requested="01/05/2026">
+  <td><a class="link-mandate" href="#screen-can003" onclick="showCanScreen('screen-can003'); return false;">MND-00840</a></td>
   <td class="col-payer-name">Khalid Al Nuaimi</td>
   <td>AED 3,200</td>
   <td>Monthly</td>
   <td>01/05/2026</td>
   <td>15/05/2026</td>
   <td>AED 16,000</td>
-  <td><span class="badge badge-cancelled">Cancelled</span></td>
 </tr>
-<tr data-search="mnd-00841 hessa al blooshi" data-cancelled="18/05/2026">
-  <td><a class="link-mandate" href="#">MND-00841</a></td>
+<tr data-search="mnd-00841 hessa al blooshi" data-cancelled="18/05/2026" data-freq="Quarterly" data-reqby="merchant" data-requested="05/05/2026">
+  <td><a class="link-mandate" href="#screen-can003" onclick="showCanScreen('screen-can003'); return false;">MND-00841</a></td>
   <td class="col-payer-name">Hessa Al Blooshi</td>
   <td>AED 8,000</td>
   <td>Quarterly</td>
   <td>05/05/2026</td>
   <td>18/05/2026</td>
   <td>AED 32,000</td>
-  <td><span class="badge badge-cancelled">Cancelled</span></td>
 </tr>
-<tr data-search="mnd-00842r mnd-00841 hessa al blooshi" data-cancelled="18/05/2026" data-replacement-for="MND-00841">
-  <td class="col-mandate-ref">
-    <a class="link-mandate" href="#">MND-00842R</a>
-    <span class="mandate-subline">(Replacement Mandate)</span>
-  </td>
-  <td class="col-payer-name">Hessa Al Blooshi</td>
-  <td>AED 8,000</td>
-  <td>Quarterly</td>
-  <td>05/05/2026</td>
-  <td>18/05/2026</td>
-  <td>—</td>
-  <td><span class="badge badge-cancelled">Cancelled</span></td>
-</tr>
-<tr data-search="mnd-00842 rashed al qubaisi" data-cancelled="22/05/2026">
-  <td><a class="link-mandate" href="#">MND-00842</a></td>
+<tr data-search="mnd-00842 rashed al qubaisi" data-cancelled="22/05/2026" data-freq="Monthly" data-reqby="ops" data-requested="10/05/2026">
+  <td><a class="link-mandate" href="#screen-can003" onclick="showCanScreen('screen-can003'); return false;">MND-00842</a></td>
   <td class="col-payer-name">Rashed Al Qubaisi</td>
   <td>Variable</td>
   <td>Monthly</td>
   <td>10/05/2026</td>
   <td>22/05/2026</td>
   <td>AED 9,750</td>
-  <td><span class="badge badge-cancelled">Cancelled</span></td>
 </tr>
-<tr data-search="mnd-00843 latifa al marzouqi" data-cancelled="25/05/2026">
-  <td><a class="link-mandate" href="#">MND-00843</a></td>
+<tr data-search="mnd-00843 latifa al marzouqi" data-cancelled="25/05/2026" data-freq="Weekly" data-reqby="merchant" data-requested="15/05/2026">
+  <td><a class="link-mandate" href="#screen-can003" onclick="showCanScreen('screen-can003'); return false;">MND-00843</a></td>
   <td class="col-payer-name">Latifa Al Marzouqi</td>
   <td>AED 1,500</td>
   <td>Weekly</td>
   <td>15/05/2026</td>
   <td>25/05/2026</td>
   <td>AED 7,500</td>
-  <td><span class="badge badge-cancelled">Cancelled</span></td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
+</main>
+</div>
+</div>
+</section>
+
+<!-- SCR-CAN-003: Cancelled Mandate Profile -->
+<section class="can-screen-section" id="screen-can003" aria-label="Cancelled Mandate Profile" style="display:none;">
+<div class="app-shell">
+<aside class="sidebar" aria-label="Main navigation">
+  <div class="sidebar-inner">
+    <div class="sidebar-brand">
+      <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M4 34 C4 34 10 20 19 4 C19 4 14 14 11 22 C9 27 8 30 8 34 Z" fill="#00A3A3" opacity="0.95"/>
+        <path d="M34 34 C34 34 28 20 19 4 C19 4 24 14 27 22 C29 27 30 30 30 34 Z" fill="#00A3A3" opacity="0.9"/>
+        <path d="M11 23 Q19 19 27 23" stroke="#00A3A3" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.8"/>
+        <path d="M19 4 C19 4 20 8 21 12 C22 16 22 18 22 20 L19 26 L16 20 C16 18 16 16 17 12 C18 8 19 4 19 4 Z" fill="rgba(255,255,255,0.12)"/>
+      </svg>
+      <div class="brand-text"><span class="brand-name">DirectDebit.cc</span><span class="brand-sub">DIRECT DEBIT PLATFORM</span></div>
+    </div>
+    <nav class="sidebar-nav" aria-label="Primary">
+      <a href="#" class="nav-item"><i data-lucide="layout-dashboard"></i><span>Overview</span></a>
+      <a href="#" class="nav-item"><i data-lucide="credit-card"></i><span>Payment Plans</span></a>
+      <div class="nav-group">
+        <div class="nav-group-header nav-item" onclick="toggleNavGroup('mandates')" style="cursor:pointer; display:flex; align-items:center; justify-content:space-between;">
+          <span style="display:flex; align-items:center; gap:10px;"><i data-lucide="file-text"></i>Mandates Management</span>
+          <i data-lucide="chevron-down" class="nav-group-mandates-chevron" style="width:14px; height:14px; transition:transform 0.2s; transform:rotate(180deg);"></i>
+        </div>
+        <div class="nav-sub-items nav-sub-mandates" style="display:flex; flex-direction:column; padding-left:20px;">
+          <a class="nav-item nav-sub-item can-nav-sub" href="#" data-screen="screen-mnd001"><i data-lucide="list" style="width:15px; height:15px;"></i>Mandates</a>
+          <a class="nav-item nav-sub-item can-nav-sub" href="#screen-can001" data-screen="screen-can001" onclick="showCanScreen('screen-can001'); return false;"><i data-lucide="clock" style="width:15px; height:15px;"></i>Cancellation Pending</a>
+          <a class="nav-item nav-sub-item can-nav-sub active" href="#screen-can002" data-screen="screen-can002" onclick="showCanScreen('screen-can002'); return false;"><i data-lucide="archive" style="width:15px; height:15px;"></i>Cancelled Mandates</a>
+          <a class="nav-item nav-sub-item can-nav-sub" href="#screen-can003" data-screen="screen-can003" onclick="showCanScreen('screen-can003'); return false;"><i data-lucide="file-search" style="width:15px; height:15px;"></i>Cancelled Mandate Profile</a>
+        </div>
+      </div>
+      <a href="#" class="nav-item"><i data-lucide="x-circle"></i><span>Rejections</span></a>
+      <a href="#" class="nav-item"><i data-lucide="banknote"></i><span>Collections</span></a>
+      <a href="#" class="nav-item"><i data-lucide="alert-triangle"></i><span>Bounced</span></a>
+      <a href="#" class="nav-item"><i data-lucide="bar-chart-2"></i><span>Reports</span></a>
+      <a href="#" class="nav-item"><i data-lucide="settings"></i><span>Settings</span></a>
+    </nav>
+    <div class="sidebar-atmosphere" aria-hidden="true"></div>
+    <div class="sidebar-footer">
+      <div class="merchant-card"><div class="merchant-avatar">DM</div><div class="merchant-meta"><div class="merchant-name">Demo Merchant LLC</div><div class="merchant-id">MID-UAE-10294</div></div></div>
+    </div>
+  </div>
+</aside>
+
+<div class="main-wrap">
+<header class="topbar phase3-topbar">
+  <div class="topbar-search-wrap">
+    <div class="search-field">
+      <i data-lucide="search" class="search-icon"></i>
+      <input type="search" placeholder="Search by Mandate Reference or Payer Name..." autocomplete="off" aria-label="Global search"/>
+    </div>
+  </div>
+  <div class="topbar-actions">
+    <button type="button" class="btn btn-ghost" aria-label="Notifications"><i data-lucide="bell" style="width:20px;height:20px"></i></button>
+    <div class="user-pill"><div class="user-avatar">AK</div><span class="user-name">Amira K.</span></div>
+  </div>
+</header>
+
+<main class="content">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="#" onclick="showCanScreen('screen-can001'); return false;">Overview</a><span class="breadcrumb-sep">/</span>
+    <a href="#" onclick="showCanScreen('screen-can001'); return false;">Mandates Management</a><span class="breadcrumb-sep">/</span>
+    <a href="#" onclick="showCanScreen('screen-can002'); return false;">Cancelled Mandates</a><span class="breadcrumb-sep">/</span>
+    <span class="breadcrumb-current">MND-00840</span>
+  </nav>
+
+  <div class="page-header" style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px;">
+    <div>
+      <h1 class="page-title" style="margin:0;">Cancelled Mandate Profile</h1>
+      <span style="font-size:13px; color:#64748B; font-weight:500;">MND-00840 · Khalid Al Nuaimi</span>
+    </div>
+    <span style="background:#F1F5F9; color:#475569; border-radius:20px; padding:4px 14px; font-size:12px; font-weight:700;">CANCELLED</span>
+  </div>
+
+  <div style="display:grid; grid-template-columns:1fr 320px; gap:20px; align-items:start;">
+
+    <div style="display:flex; flex-direction:column; gap:16px;">
+
+      <section style="background:white; border-radius:12px; padding:20px; box-shadow:0 1px 4px rgba(0,0,0,.06);">
+        <h3 style="font-size:14px; font-weight:700; color:#172B4D; margin:0 0 14px;">Payer Information</h3>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div><div style="font-size:11px; color:#64748B; margin-bottom:3px;">Mandate Reference</div><div style="font-size:13px; font-weight:600; color:#0F1F38;">MND-00840</div></div>
+          <div><div style="font-size:11px; color:#64748B; margin-bottom:3px;">Payer Name</div><div style="font-size:13px; font-weight:600; color:#0F1F38;">Khalid Al Nuaimi</div></div>
+          <div style="grid-column:1/-1;"><div style="font-size:11px; color:#64748B; margin-bottom:3px;">Contact Detail</div><div style="font-size:13px; font-weight:600; color:#0F1F38;">+971 50 987 6543</div></div>
+        </div>
+      </section>
+
+      <section style="background:white; border-radius:12px; padding:20px; box-shadow:0 1px 4px rgba(0,0,0,.06);">
+        <h3 style="font-size:14px; font-weight:700; color:#172B4D; margin:0 0 14px;">Mandate Details</h3>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div><div style="font-size:11px; color:#64748B; margin-bottom:3px;">Merchant Name</div><div style="font-size:13px; font-weight:600; color:#0F1F38;">Demo Merchant LLC</div></div>
+          <div><div style="font-size:11px; color:#64748B; margin-bottom:3px;">Frequency</div><div style="font-size:13px; font-weight:600; color:#0F1F38;">Monthly</div></div>
+          <div><div style="font-size:11px; color:#64748B; margin-bottom:3px;">Amount Type</div><div style="font-size:13px; font-weight:600; color:#0F1F38;">Fixed</div></div>
+          <div><div style="font-size:11px; color:#64748B; margin-bottom:3px;">Collection Amount</div><div style="font-size:13px; font-weight:600; color:#0F1F38;">AED 3,200</div></div>
+          <div><div style="font-size:11px; color:#64748B; margin-bottom:3px;">Start Date</div><div style="font-size:13px; font-weight:600; color:#0F1F38;">01/01/2026</div></div>
+          <div><div style="font-size:11px; color:#64748B; margin-bottom:3px;">End Date</div><div style="font-size:13px; font-weight:600; color:#0F1F38;">31/12/2026</div></div>
+          <div style="grid-column:1/-1;"><div style="font-size:11px; color:#64748B; margin-bottom:3px;">Lifetime</div><div style="font-size:13px; font-weight:600; color:#0F1F38;">1 Year</div></div>
+        </div>
+      </section>
+
+      <section style="background:white; border-radius:12px; padding:20px; box-shadow:0 1px 4px rgba(0,0,0,.06);">
+        <h3 style="font-size:14px; font-weight:700; color:#172B4D; margin:0 0 14px;">Collection History</h3>
+        <table style="width:100%; border-collapse:collapse; font-size:12px;">
+          <thead>
+            <tr style="background:#F4F6F9;">
+              <th style="padding:8px 12px; text-align:left; font-size:11px; font-weight:600; color:#64748B; text-transform:uppercase; letter-spacing:.03em;">Collection Date</th>
+              <th style="padding:8px 12px; text-align:left; font-size:11px; font-weight:600; color:#64748B; text-transform:uppercase; letter-spacing:.03em;">Amount (AED)</th>
+              <th style="padding:8px 12px; text-align:left; font-size:11px; font-weight:600; color:#64748B; text-transform:uppercase; letter-spacing:.03em;">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid #E2E8F0;"><td style="padding:9px 12px;">01/01/2026</td><td style="padding:9px 12px;">3,200</td><td style="padding:9px 12px;"><span style="background:#DCFCE7;color:#15803D;border-radius:10px;padding:2px 9px;font-size:11px;font-weight:700;">Received</span></td></tr>
+            <tr style="border-bottom:1px solid #E2E8F0;"><td style="padding:9px 12px;">01/02/2026</td><td style="padding:9px 12px;">3,200</td><td style="padding:9px 12px;"><span style="background:#DCFCE7;color:#15803D;border-radius:10px;padding:2px 9px;font-size:11px;font-weight:700;">Received</span></td></tr>
+            <tr style="border-bottom:1px solid #E2E8F0;"><td style="padding:9px 12px;">01/03/2026</td><td style="padding:9px 12px;">3,200</td><td style="padding:9px 12px;"><span style="background:#DCFCE7;color:#15803D;border-radius:10px;padding:2px 9px;font-size:11px;font-weight:700;">Received</span></td></tr>
+            <tr style="border-bottom:1px solid #E2E8F0;"><td style="padding:9px 12px;">01/04/2026</td><td style="padding:9px 12px;">3,200</td><td style="padding:9px 12px;"><span style="background:#DCFCE7;color:#15803D;border-radius:10px;padding:2px 9px;font-size:11px;font-weight:700;">Received</span></td></tr>
+            <tr style="border-bottom:1px solid #E2E8F0;"><td style="padding:9px 12px;">01/05/2026</td><td style="padding:9px 12px;">3,200</td><td style="padding:9px 12px;"><span style="background:#F1F5F9;color:#475569;border-radius:10px;padding:2px 9px;font-size:11px;font-weight:700;">Stopped — Mandate Cancelled</span></td></tr>
+          </tbody>
+        </table>
+        <div style="margin-top:12px; font-size:12px; color:#64748B;">Total collected before cancellation: <strong style="color:#172B4D;">AED 12,800</strong></div>
+      </section>
+
+      <section style="background:white; border-radius:12px; padding:20px; box-shadow:0 1px 4px rgba(0,0,0,.06);">
+        <h3 style="font-size:14px; font-weight:700; color:#172B4D; margin:0 0 14px;">Submission &amp; Bank Response</h3>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div><div style="font-size:11px; color:#64748B; margin-bottom:3px;">Current Status</div><div style="font-size:13px; font-weight:600; color:#0F1F38;"><span style="background:#F1F5F9; color:#475569; border-radius:10px; padding:3px 10px; font-size:11px; font-weight:700;">CANCELLED</span></div></div>
+          <div><div style="font-size:11px; color:#64748B; margin-bottom:3px;">Batch Reference</div><div style="font-size:13px; font-weight:600; color:#0F1F38;">BATCH-CAN-2026-00041</div></div>
+          <div><div style="font-size:11px; color:#64748B; margin-bottom:3px;">Submitted At</div><div style="font-size:13px; font-weight:600; color:#0F1F38;">01/05/2026 08:00</div></div>
+          <div><div style="font-size:11px; color:#64748B; margin-bottom:3px;">Bank Response Code</div><div style="font-size:13px; font-weight:600; color:#0F1F38;">00</div></div>
+          <div style="grid-column:1/-1;"><div style="font-size:11px; color:#64748B; margin-bottom:3px;">Bank Response Description</div><div style="font-size:13px; font-weight:600; color:#0F1F38;">Mandate cancellation confirmed successfully</div></div>
+          <div style="grid-column:1/-1;"><div style="font-size:11px; color:#64748B; margin-bottom:3px;">Response Received At</div><div style="font-size:13px; font-weight:600; color:#0F1F38;">15/05/2026 11:20</div></div>
+        </div>
+      </section>
+
+      <section style="background:white; border-radius:12px; padding:20px; box-shadow:0 1px 4px rgba(0,0,0,.06); border-left:4px solid #DC2626;">
+        <h3 style="font-size:14px; font-weight:700; color:#DC2626; margin:0 0 14px;">Cancellation Information</h3>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div><div style="font-size:11px; color:#64748B; margin-bottom:3px;">Requested By</div><div style="font-size:13px; font-weight:600; color:#0F1F38;">Admin (Ops)</div></div>
+          <div><div style="font-size:11px; color:#64748B; margin-bottom:3px;">Requested On</div><div style="font-size:13px; font-weight:600; color:#0F1F38;">01/05/2026</div></div>
+          <div><div style="font-size:11px; color:#64748B; margin-bottom:3px;">Confirmed Cancelled On</div><div style="font-size:13px; font-weight:600; color:#0F1F38;">15/05/2026</div></div>
+          <div><div style="font-size:11px; color:#64748B; margin-bottom:3px;">Cancellation Attempts</div><div style="font-size:13px; font-weight:600; color:#0F1F38;">1</div></div>
+          <div style="grid-column:1/-1;"><div style="font-size:11px; color:#64748B; margin-bottom:3px;">Payer Notification</div><div style="font-size:13px; font-weight:600; color:#0F1F38;">Cancellation notice sent to payer via SMS on 15/05/2026 at 11:22</div></div>
+          <div style="grid-column:1/-1;"><div style="font-size:11px; color:#64748B; margin-bottom:3px;">Cancellation Message Sent</div>
+            <div style="background:#F8FAFC; border:1.5px solid #E2E8F0; border-radius:8px; padding:12px; font-size:12px; color:#374151; font-style:italic; margin-top:4px; line-height:1.6;">
+              "Dear Khalid Al Nuaimi, your direct debit mandate (MND-00840) with Demo Merchant LLC has been successfully cancelled. No further payments will be collected from your account under this mandate. If you have any questions, please contact Demo Merchant LLC directly."
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section style="background:white; border-radius:12px; padding:20px; box-shadow:0 1px 4px rgba(0,0,0,.06); border-left:4px solid #D97706;">
+        <h3 style="font-size:14px; font-weight:700; color:#D97706; margin:0 0 6px;">Collections Impact at Cancellation</h3>
+        <p style="font-size:12px; color:#64748B; margin:0 0 14px;">The following collections were affected when this mandate was cancelled on 01/05/2026.</p>
+        <table style="width:100%; border-collapse:collapse; font-size:12px;">
+          <thead>
+            <tr style="background:#FFFBEB;">
+              <th style="padding:8px 12px; text-align:left; font-size:11px; font-weight:600; color:#92400E; text-transform:uppercase; letter-spacing:.03em;">Collection Reference</th>
+              <th style="padding:8px 12px; text-align:left; font-size:11px; font-weight:600; color:#92400E; text-transform:uppercase; letter-spacing:.03em;">Collection Date</th>
+              <th style="padding:8px 12px; text-align:left; font-size:11px; font-weight:600; color:#92400E; text-transform:uppercase; letter-spacing:.03em;">Amount (AED)</th>
+              <th style="padding:8px 12px; text-align:left; font-size:11px; font-weight:600; color:#92400E; text-transform:uppercase; letter-spacing:.03em;">Status Before</th>
+              <th style="padding:8px 12px; text-align:left; font-size:11px; font-weight:600; color:#92400E; text-transform:uppercase; letter-spacing:.03em;">Outcome</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid #E2E8F0;">
+              <td style="padding:9px 12px; font-weight:600; color:#0F1F38;">COL-00840-5</td>
+              <td style="padding:9px 12px;">01/05/2026</td>
+              <td style="padding:9px 12px;">3,200</td>
+              <td style="padding:9px 12px;"><span style="background:#EFF6FF;color:#1D4ED8;border-radius:10px;padding:2px 9px;font-size:11px;font-weight:700;">Ready for Collection</span></td>
+              <td style="padding:9px 12px;"><span style="background:#F1F5F9;color:#475569;border-radius:10px;padding:2px 9px;font-size:11px;font-weight:700;">Stopped</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid #E2E8F0;">
+              <td style="padding:9px 12px; font-weight:600; color:#0F1F38;">COL-00840-6</td>
+              <td style="padding:9px 12px;">01/06/2026</td>
+              <td style="padding:9px 12px;">3,200</td>
+              <td style="padding:9px 12px;"><span style="background:#ECFEFF;color:#0E7490;border-radius:10px;padding:2px 9px;font-size:11px;font-weight:700;">Future Collection</span></td>
+              <td style="padding:9px 12px;"><span style="background:#FEF2F2;color:#DC2626;border-radius:10px;padding:2px 9px;font-size:11px;font-weight:700;">Deleted</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+    </div>
+
+    <div style="background:white; border-radius:12px; padding:20px; box-shadow:0 1px 4px rgba(0,0,0,.06); position:sticky; top:72px;">
+      <h3 style="font-size:14px; font-weight:700; color:#172B4D; margin:0 0 16px;">Status History</h3>
+      <div style="display:flex; flex-direction:column; gap:0;">
+
+        <div style="display:flex; gap:12px; padding-bottom:16px; position:relative;">
+          <div style="display:flex; flex-direction:column; align-items:center; flex-shrink:0;">
+            <div style="width:10px; height:10px; border-radius:50%; background:#475569; margin-top:3px; flex-shrink:0;"></div>
+            <div style="width:2px; flex:1; background:#E2E8F0; margin-top:4px;"></div>
+          </div>
+          <div>
+            <span style="background:#F1F5F9; color:#475569; border-radius:10px; padding:2px 9px; font-size:11px; font-weight:700;">CANCELLED</span>
+            <div style="font-size:11px; color:#64748B; margin-top:4px;">15/05/2026 11:20 · RPA</div>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:12px; padding-bottom:16px;">
+          <div style="display:flex; flex-direction:column; align-items:center; flex-shrink:0;">
+            <div style="width:10px; height:10px; border-radius:50%; background:#00A3A3; margin-top:3px; flex-shrink:0;"></div>
+            <div style="width:2px; flex:1; background:#E2E8F0; margin-top:4px;"></div>
+          </div>
+          <div>
+            <span style="background:#E6F7F7; color:#00A3A3; border:1px solid #00A3A3; border-radius:10px; padding:2px 9px; font-size:11px; font-weight:700;">PAYER NOTIFIED</span>
+            <div style="font-size:11px; color:#64748B; margin-top:4px;">15/05/2026 11:22 · System · SMS</div>
+            <div style="font-size:11px; color:#94A3B8; margin-top:2px; font-style:italic;">Cancellation notice sent to payer</div>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:12px; padding-bottom:16px;">
+          <div style="display:flex; flex-direction:column; align-items:center; flex-shrink:0;">
+            <div style="width:10px; height:10px; border-radius:50%; background:#854D0E; margin-top:3px; flex-shrink:0;"></div>
+            <div style="width:2px; flex:1; background:#E2E8F0; margin-top:4px;"></div>
+          </div>
+          <div>
+            <span style="background:#FEF9C3; color:#854D0E; border-radius:10px; padding:2px 9px; font-size:11px; font-weight:700;">CANCELLATION PENDING</span>
+            <div style="font-size:11px; color:#64748B; margin-top:4px;">01/05/2026 08:00 · RPA</div>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:12px; padding-bottom:16px;">
+          <div style="display:flex; flex-direction:column; align-items:center; flex-shrink:0;">
+            <div style="width:10px; height:10px; border-radius:50%; background:#1D4ED8; margin-top:3px; flex-shrink:0;"></div>
+            <div style="width:2px; flex:1; background:#E2E8F0; margin-top:4px;"></div>
+          </div>
+          <div>
+            <span style="background:#EFF6FF; color:#1D4ED8; border-radius:10px; padding:2px 9px; font-size:11px; font-weight:700;">CANCELLATION REQUESTED</span>
+            <div style="font-size:11px; color:#64748B; margin-top:4px;">01/05/2026 07:45 · Admin (Ops)</div>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:12px; padding-bottom:16px;">
+          <div style="display:flex; flex-direction:column; align-items:center; flex-shrink:0;">
+            <div style="width:10px; height:10px; border-radius:50%; background:#15803D; margin-top:3px; flex-shrink:0;"></div>
+            <div style="width:2px; flex:1; background:#E2E8F0; margin-top:4px;"></div>
+          </div>
+          <div>
+            <span style="background:#DCFCE7; color:#15803D; border-radius:10px; padding:2px 9px; font-size:11px; font-weight:700;">APPROVED</span>
+            <div style="font-size:11px; color:#64748B; margin-top:4px;">15/01/2026 09:15 · RPA</div>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:12px; padding-bottom:16px;">
+          <div style="display:flex; flex-direction:column; align-items:center; flex-shrink:0;">
+            <div style="width:10px; height:10px; border-radius:50%; background:#6D28D9; margin-top:3px; flex-shrink:0;"></div>
+            <div style="width:2px; flex:1; background:#E2E8F0; margin-top:4px;"></div>
+          </div>
+          <div>
+            <span style="background:#EDE9FE; color:#6D28D9; border-radius:10px; padding:2px 9px; font-size:11px; font-weight:700;">PENDING BANK APPROVAL</span>
+            <div style="font-size:11px; color:#64748B; margin-top:4px;">14/01/2026 10:15 · RPA</div>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:12px;">
+          <div style="display:flex; flex-direction:column; align-items:center; flex-shrink:0;">
+            <div style="width:10px; height:10px; border-radius:50%; background:#94A3B8; margin-top:3px; flex-shrink:0;"></div>
+          </div>
+          <div>
+            <span style="background:#F8FAFC; color:#64748B; border-radius:10px; padding:2px 9px; font-size:11px; font-weight:700;">DRAFT</span>
+            <div style="font-size:11px; color:#64748B; margin-top:4px;">14/01/2026 09:00 · Mohammed Al Rashidi (Ops)</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
 </main>
 </div>
 </div>
@@ -890,8 +1177,9 @@ function showCanScreen(screenId) {
 }
 
 function setCanActiveNav(screenId) {
+  const activeScreen = screenId === 'screen-can003' ? 'screen-can002' : screenId;
   document.querySelectorAll('.can-nav-sub').forEach(a => {
-    a.classList.toggle('active', a.getAttribute('data-screen') === screenId);
+    a.classList.toggle('active', a.getAttribute('data-screen') === activeScreen);
   });
 }
 
@@ -959,6 +1247,7 @@ function applyCan001Filters() {
   const payer = (document.getElementById('can001-filter-payer')?.value || '').toLowerCase().trim();
   const requestedBy = document.getElementById('can001-filter-requested-by')?.value || 'all';
   const status = document.getElementById('can001-filter-status')?.value || '';
+  const freq = document.getElementById('can001-filter-freq')?.value || '';
   const mode = document.getElementById('can001-date-mode')?.value || 'none';
   const dateA = document.getElementById('can001-date-a')?.value || '';
   const dateB = document.getElementById('can001-date-b')?.value || '';
@@ -969,13 +1258,15 @@ function applyCan001Filters() {
     const reqBy = tr.getAttribute('data-requested-by') || '';
     const reqDate = tr.getAttribute('data-requested') || '';
     const rowStatus = tr.getAttribute('data-status') || '';
+    const rowFreq = tr.getAttribute('data-freq') || '';
     const okRef = !ref || searchStr.includes(ref);
     const okPayer = !payer || searchStr.includes(payer);
     const okTop = !topSearch || searchStr.includes(topSearch);
     const okReqBy = requestedBy === 'all' || reqBy === requestedBy;
     const okStatus = !status || rowStatus === status;
+    const okFreq = !freq || rowFreq === freq;
     const okDate = matchDateFilter(reqDate, mode, dateA, dateB);
-    tr.style.display = okRef && okPayer && okTop && okReqBy && okStatus && okDate ? '' : 'none';
+    tr.style.display = okRef && okPayer && okTop && okReqBy && okStatus && okFreq && okDate ? '' : 'none';
   });
 }
 
@@ -988,6 +1279,8 @@ function clearCan001Filters() {
   if (sel) sel.value = 'all';
   const statusSel = document.getElementById('can001-filter-status');
   if (statusSel) statusSel.value = '';
+  const freqSel = document.getElementById('can001-filter-freq');
+  if (freqSel) freqSel.value = '';
   const mode = document.getElementById('can001-date-mode');
   if (mode) mode.value = 'none';
   handleCan001DateModeChange();
@@ -1010,9 +1303,31 @@ function handleCan002DateModeChange() {
   applyCan002Filters();
 }
 
+function handleCan002ReqDateModeChange() {
+  const mode = document.getElementById('can002-reqdate-mode')?.value;
+  const a = document.getElementById('can002-reqdate-a');
+  const b = document.getElementById('can002-reqdate-b');
+  const sep = document.getElementById('can002-reqdate-sep');
+  if (!a || !b || !sep) return;
+  a.value = ''; b.value = '';
+  if (mode === 'none') {
+    a.style.display = 'none'; b.style.display = 'none'; sep.style.display = 'none';
+  } else if (mode === 'after' || mode === 'before') {
+    a.style.display = ''; b.style.display = 'none'; sep.style.display = 'none';
+  } else {
+    a.style.display = ''; b.style.display = ''; sep.style.display = '';
+  }
+  applyCan002Filters();
+}
+
 function applyCan002Filters() {
   const ref = (document.getElementById('can002-filter-ref')?.value || '').toLowerCase().trim();
   const payer = (document.getElementById('can002-filter-payer')?.value || '').toLowerCase().trim();
+  const freq = document.getElementById('can002-filter-freq')?.value || '';
+  const reqBy = document.getElementById('can002-filter-reqby')?.value || '';
+  const reqMode = document.getElementById('can002-reqdate-mode')?.value || 'none';
+  const reqDateA = document.getElementById('can002-reqdate-a')?.value || '';
+  const reqDateB = document.getElementById('can002-reqdate-b')?.value || '';
   const mode = document.getElementById('can002-date-mode')?.value || 'none';
   const dateA = document.getElementById('can002-date-a')?.value || '';
   const dateB = document.getElementById('can002-date-b')?.value || '';
@@ -1021,22 +1336,35 @@ function applyCan002Filters() {
   document.querySelectorAll('#can002TableBody tr').forEach(tr => {
     const searchStr = (tr.getAttribute('data-search') || '').toLowerCase();
     const cancelledDate = tr.getAttribute('data-cancelled') || '';
+    const requestedDate = tr.getAttribute('data-requested') || '';
+    const rowFreq = tr.getAttribute('data-freq') || '';
+    const rowReqBy = tr.getAttribute('data-reqby') || '';
     const okRef = !ref || searchStr.includes(ref);
     const okPayer = !payer || searchStr.includes(payer);
     const okTop = !topSearch || searchStr.includes(topSearch);
+    const okFreq = !freq || rowFreq === freq;
+    const okReqBy = !reqBy || rowReqBy === reqBy;
+    const okReqDate = matchDateFilter(requestedDate, reqMode, reqDateA, reqDateB);
     const okDate = matchDateFilter(cancelledDate, mode, dateA, dateB);
-    tr.style.display = okRef && okPayer && okTop && okDate ? '' : 'none';
+    tr.style.display = okRef && okPayer && okTop && okFreq && okReqBy && okReqDate && okDate ? '' : 'none';
   });
 }
 
 function clearCan002Filters() {
-  ['can002-filter-ref', 'can002-filter-payer', 'can002-date-a', 'can002-date-b', 'can002-topbar-search'].forEach(id => {
+  ['can002-filter-ref', 'can002-filter-payer', 'can002-date-a', 'can002-date-b', 'can002-reqdate-a', 'can002-reqdate-b', 'can002-topbar-search'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.value = '';
   });
+  const freqSel = document.getElementById('can002-filter-freq');
+  if (freqSel) freqSel.value = '';
+  const reqBySel = document.getElementById('can002-filter-reqby');
+  if (reqBySel) reqBySel.value = '';
   const mode = document.getElementById('can002-date-mode');
   if (mode) mode.value = 'none';
+  const reqMode = document.getElementById('can002-reqdate-mode');
+  if (reqMode) reqMode.value = 'none';
   handleCan002DateModeChange();
+  handleCan002ReqDateModeChange();
 }
 
 function toggleCan002Export() {
