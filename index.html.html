@@ -283,13 +283,13 @@
 
 <nav class="prototype-nav" aria-label="Prototype screens">
   <span class="proto-label">Phase 8 — All Screens:</span>
-  <a href="#screen-can001" class="can-proto-nav active" data-screen="screen-can001" onclick="showCanScreen('screen-can001'); return false;">SCR-CAN-001: Cancellation Pending</a>
+  <a href="#screen-can001" class="can-proto-nav active" data-screen="screen-can001" onclick="showCanScreen('screen-can001'); return false;">SCR-CAN-001: Pending Bank Cancellation</a>
   <a href="#screen-can002" class="can-proto-nav" data-screen="screen-can002" onclick="showCanScreen('screen-can002'); return false;">SCR-CAN-002: Cancelled Mandates</a>
   <a href="#screen-can003" class="can-proto-nav" data-screen="screen-can003" onclick="showCanScreen('screen-can003'); return false;">SCR-CAN-003: Cancelled Mandate Profile</a>
 </nav>
 
-<!-- SCR-CAN-001: Cancellation Pending -->
-<section class="can-screen-section" id="screen-can001" aria-label="Cancellation Pending">
+<!-- SCR-CAN-001: Pending Bank Cancellation -->
+<section class="can-screen-section" id="screen-can001" aria-label="Pending Bank Cancellation">
 <div class="app-shell">
 <aside class="sidebar" aria-label="Main navigation">
 <div class="sidebar-inner">
@@ -312,7 +312,7 @@
   </div>
   <div class="nav-sub-items" id="nav-sub-mandates" style="display:flex; flex-direction:column; padding-left:20px;">
     <a class="nav-item nav-sub-item can-nav-sub" href="#" data-screen="screen-mnd001"><i data-lucide="list" style="width:15px; height:15px;"></i>Mandates</a>
-    <a class="nav-item nav-sub-item can-nav-sub active" href="#screen-can001" data-screen="screen-can001" onclick="showCanScreen('screen-can001'); return false;"><i data-lucide="clock" style="width:15px; height:15px;"></i>Cancellation Pending</a>
+    <a class="nav-item nav-sub-item can-nav-sub active" href="#screen-can001" data-screen="screen-can001" onclick="showCanScreen('screen-can001'); return false;"><i data-lucide="clock" style="width:15px; height:15px;"></i>Pending Bank Cancellation</a>
     <a class="nav-item nav-sub-item can-nav-sub" href="#screen-can002" data-screen="screen-can002" onclick="showCanScreen('screen-can002'); return false;"><i data-lucide="archive" style="width:15px; height:15px;"></i>Cancelled Mandates</a>
     <a class="nav-item nav-sub-item can-nav-sub" href="#screen-can003" data-screen="screen-can003" onclick="showCanScreen('screen-can003'); return false;"><i data-lucide="file-search" style="width:15px; height:15px;"></i>Cancelled Mandate Profile</a>
   </div>
@@ -348,14 +348,14 @@
 <nav class="breadcrumb" aria-label="Breadcrumb">
 <a href="#">Overview</a><span class="breadcrumb-sep">/</span>
 <a href="#">Mandates Management</a><span class="breadcrumb-sep">/</span>
-<span class="breadcrumb-current">Cancellation Pending</span>
+<span class="breadcrumb-current">Pending Bank Cancellation</span>
 </nav>
 
-<div class="page-header"><h1 class="page-title">Cancellation Pending</h1></div>
+<div class="page-header"><h1 class="page-title">Pending Bank Cancellation</h1></div>
 
 <div class="info-banner" role="note">
 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#854D0E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-<span>These mandates have been submitted to the bank for cancellation. The RPA processes the bank's responses automatically. No manual action is required.</span>
+<span>These mandates have been submitted to the bank for cancellation. The RPA processes bank responses automatically. No manual action is needed here. Mandates whose end date has been reached are submitted automatically — the bank does not cancel mandates on its own when the end date passes.</span>
 </div>
 
 <!-- Filter Bar -->
@@ -403,13 +403,14 @@
       <option value="all">All</option>
       <option value="merchant">Merchant</option>
       <option value="ops">Ops</option>
+      <option value="system">System (Automatic)</option>
     </select>
   </div>
   <div style="display:flex; flex-direction:column; gap:4px;">
     <label style="font-size:11px; font-weight:600; color:#2D3F5C;">Status</label>
     <select id="can001-filter-status" onchange="applyCan001Filters()" style="height:34px; padding:0 28px 0 10px; font-size:12px; color:#172B4D; background:white; border:1.5px solid #E2E8F0; border-radius:8px; font-family:DM Sans,sans-serif; appearance:none; background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E&quot;); background-repeat:no-repeat; background-position:right 8px center; cursor:pointer; padding-right:28px; width:185px;">
       <option value="">All Statuses</option>
-      <option value="cancellation-pending">Cancellation Pending</option>
+      <option value="cancellation-pending">Pending Bank Cancellation</option>
       <option value="cancellation-rejected">Cancel Rejected</option>
     </select>
   </div>
@@ -421,7 +422,7 @@
 
 <div class="card table-card">
 <div class="table-scroll">
-<table class="plans-table" aria-label="Cancellation Pending">
+<table class="plans-table" aria-label="Pending Bank Cancellation">
 <colgroup>
   <col style="width:145px"/>
   <col style="width:130px"/>
@@ -502,7 +503,7 @@
   <td>01/06/2026</td>
   <td>Admin (Ops)</td>
   <td>1</td>
-  <td><span class="badge badge-cancellation-pending">Cancellation Pending</span></td>
+  <td><span class="badge badge-cancellation-pending">Pending Bank Cancellation</span></td>
 </tr>
 <tr data-search="mnd-00851 sara al hamdan" data-requested="28/05/2026" data-requested-by="merchant" data-status="cancellation-rejected" data-freq="Monthly">
   <td><a class="link-mandate" href="#">MND-00851</a></td>
@@ -532,7 +533,17 @@
   <td>20/05/2026</td>
   <td>Merchant Admin</td>
   <td>1</td>
-  <td><span class="badge badge-cancellation-pending">Cancellation Pending</span></td>
+  <td><span class="badge badge-cancellation-pending">Pending Bank Cancellation</span></td>
+</tr>
+<tr data-search="mnd-00855 layla al ketbi" data-requested="19/06/2026" data-requested-by="system" data-status="cancellation-pending" data-freq="Monthly">
+  <td><a class="link-mandate" href="#">MND-00855</a></td>
+  <td>Layla Al Ketbi</td>
+  <td>AED 2,500</td>
+  <td>Monthly</td>
+  <td>19/06/2026</td>
+  <td>System <span style="font-size:11px;color:#64748B;display:block;margin-top:1px;">End date reached</span></td>
+  <td>1</td>
+  <td><span class="badge badge-cancellation-pending">Pending Bank Cancellation</span></td>
 </tr>
 </tbody>
 </table>
@@ -567,7 +578,7 @@
   </div>
   <div class="nav-sub-items nav-sub-mandates" style="display:flex; flex-direction:column; padding-left:20px;">
     <a class="nav-item nav-sub-item can-nav-sub" href="#" data-screen="screen-mnd001"><i data-lucide="list" style="width:15px; height:15px;"></i>Mandates</a>
-    <a class="nav-item nav-sub-item can-nav-sub" href="#screen-can001" data-screen="screen-can001" onclick="showCanScreen('screen-can001'); return false;"><i data-lucide="clock" style="width:15px; height:15px;"></i>Cancellation Pending</a>
+    <a class="nav-item nav-sub-item can-nav-sub" href="#screen-can001" data-screen="screen-can001" onclick="showCanScreen('screen-can001'); return false;"><i data-lucide="clock" style="width:15px; height:15px;"></i>Pending Bank Cancellation</a>
     <a class="nav-item nav-sub-item can-nav-sub active" href="#screen-can002" data-screen="screen-can002" onclick="showCanScreen('screen-can002'); return false;"><i data-lucide="archive" style="width:15px; height:15px;"></i>Cancelled Mandates</a>
     <a class="nav-item nav-sub-item can-nav-sub" href="#screen-can003" data-screen="screen-can003" onclick="showCanScreen('screen-can003'); return false;"><i data-lucide="file-search" style="width:15px; height:15px;"></i>Cancelled Mandate Profile</a>
   </div>
@@ -833,7 +844,7 @@
         </div>
         <div class="nav-sub-items nav-sub-mandates" style="display:flex; flex-direction:column; padding-left:20px;">
           <a class="nav-item nav-sub-item can-nav-sub" href="#" data-screen="screen-mnd001"><i data-lucide="list" style="width:15px; height:15px;"></i>Mandates</a>
-          <a class="nav-item nav-sub-item can-nav-sub" href="#screen-can001" data-screen="screen-can001" onclick="showCanScreen('screen-can001'); return false;"><i data-lucide="clock" style="width:15px; height:15px;"></i>Cancellation Pending</a>
+          <a class="nav-item nav-sub-item can-nav-sub" href="#screen-can001" data-screen="screen-can001" onclick="showCanScreen('screen-can001'); return false;"><i data-lucide="clock" style="width:15px; height:15px;"></i>Pending Bank Cancellation</a>
           <a class="nav-item nav-sub-item can-nav-sub active" href="#screen-can002" data-screen="screen-can002" onclick="showCanScreen('screen-can002'); return false;"><i data-lucide="archive" style="width:15px; height:15px;"></i>Cancelled Mandates</a>
           <a class="nav-item nav-sub-item can-nav-sub" href="#screen-can003" data-screen="screen-can003" onclick="showCanScreen('screen-can003'); return false;"><i data-lucide="file-search" style="width:15px; height:15px;"></i>Cancelled Mandate Profile</a>
         </div>
@@ -1022,8 +1033,9 @@
             <div style="width:2px; flex:1; background:#E2E8F0; margin-top:4px;"></div>
           </div>
           <div>
-            <span style="background:#FEF9C3; color:#854D0E; border-radius:10px; padding:2px 9px; font-size:11px; font-weight:700;">CANCELLATION PENDING</span>
+            <span style="background:#FEF9C3; color:#854D0E; border-radius:10px; padding:2px 9px; font-size:11px; font-weight:700;">PENDING BANK CANCELLATION</span>
             <div style="font-size:11px; color:#64748B; margin-top:4px;">01/05/2026 08:00 · RPA</div>
+            <div style="font-size:11px; color:#94A3B8; margin-top:2px; font-style:italic;">set by RPA after cancellation file submission.</div>
           </div>
         </div>
 
